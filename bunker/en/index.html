@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Pult for bunker suppliers · demo</title>
+<meta name="description" content="Demo: five Pult features, shown on bunkering examples">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--brand:#0b4f8a;--brand-soft:#0b4f8a14;--em:#047857;--em-soft:#10b98120;--am:#b45309;--am-soft:#f59e0b22;--sk:#0369a1;--sk-soft:#0ea5e91c;--vi:#6d28d9;--vi-soft:#8b5cf61c;--ro:#be123c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px calc(28px + env(safe-area-inset-bottom))}
+.demo{display:inline-block;background:var(--am-soft);color:var(--am);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+header.cover{padding:28px 4px 8px}
+.logo{width:52px;height:52px;border-radius:16px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
+h1{font-size:28px;line-height:1.15;margin:14px 0 8px;letter-spacing:-.02em}
+h2{font-size:21px;line-height:1.2;margin:4px 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 6px}
+.toc{display:grid;gap:8px;margin:18px 0 6px}
+.toc a{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--brand);font-size:13px;min-width:22px}
+.chips{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 14px;margin:0 -14px;background:#f4f6f9e8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;font-size:13px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:inherit;text-decoration:none;white-space:nowrap}
+.chips a.on{background:var(--brand);border-color:var(--brand);color:#fff}
+section.f{padding-top:22px;scroll-margin-top:52px}
+.kicker{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.06em}
+ul.pts{margin:8px 0 12px;padding:0;list-style:none;display:grid;gap:6px}
+ul.pts li{display:flex;gap:8px;font-size:14px}
+ul.pts li::before{content:"✓";color:var(--em);font-weight:700}
+.frame{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px #0f172a12}
+.bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--border);background:#f8fafc;font-size:12px;color:var(--muted);font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%}
+.body{padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;font-size:14px}
+.frame{max-width:100%}
+.box{border:1px solid var(--border);border-radius:14px;padding:11px;background:#fff}
+.row{display:flex;align-items:center;gap:9px}
+.grow{flex:1;min-width:0}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm{font-size:12px;color:var(--muted)}
+.xs{font-size:11px;color:var(--muted)}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pill{flex:none;display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600}
+.em{background:var(--em-soft);color:var(--em)}.am{background:var(--am-soft);color:var(--am)}.sk{background:var(--sk-soft);color:var(--sk)}.vi{background:var(--vi-soft);color:var(--vi)}.sl{background:#0f172a0d;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btn{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:7px 13px;border:1px solid var(--border);background:#fff;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn:active{transform:scale(.97)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;margin-top:8px}
+.spec b{font-weight:600}
+.reply{display:none;margin-top:9px;border-radius:12px;background:var(--sk-soft);padding:10px;font-size:13.5px}
+.reply.show{display:block;animation:up .35s both}
+.bub{display:flex}.bub>div{max-width:84%;border-radius:16px;padding:8px 11px;background:#0f172a0b}
+.bub.me{justify-content:flex-end}.bub.me>div{background:var(--sk-soft)}
+.meta{font-size:10px;color:var(--muted);text-align:right;margin-top:2px}
+.wait{color:var(--ro);font-size:11px;flex:none}
+.gate{border:1px solid #f59e0b55;background:var(--am-soft);border-radius:14px;padding:11px}
+.note{background:#0f172a08;border-radius:12px;padding:10px;font-size:13px}
+.wave{display:flex;align-items:flex-end;gap:2px;height:16px}
+.wave i{width:3px;border-radius:2px;background:var(--vi);animation:w 1s ease-in-out infinite alternate}
+@keyframes w{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sent{display:none;color:var(--em);font-weight:600;font-size:13px;margin-top:8px}
+footer{margin-top:28px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--border);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div style="display:flex;justify-content:space-between;align-items:center"><div class="logo">⚓</div><a href="../" style="font-size:13px;font-weight:600;color:var(--brand);text-decoration:none;border:1px solid var(--border);background:#fff;border-radius:999px;padding:6px 12px">EN · <u>RU</u></a></div>
+  <h1>Pult for bunker suppliers</h1>
+  <p class="lead">Bunker enquiries, quotes and conversations from every channel on one screen. An AI agent drafts the replies; you decide and you send.</p>
+  <span class="demo">Demo: all vessels, companies, names and figures are fictional</span>
+  <nav class="toc">
+    <a href="#radar"><span class="num">01</span><span>New client radar</span></a>
+    <a href="#inbox"><span class="num">02</span><span>All messengers in one feed</span></a>
+    <a href="#agent"><span class="num">03</span><span>The agent drafts your reply</span></a>
+    <a href="#gate"><span class="num">04</span><span>Nothing goes out without your “yes”</span></a>
+    <a href="#voice"><span class="num">05</span><span>Voice assistant and Siri</span></a>
+  </nav>
+</header>
+
+<div class="chips" id="chips">
+  <a href="#radar">01 Radar</a><a href="#inbox">02 Feed</a><a href="#agent">03 Agent</a><a href="#gate">04 “Yes”</a><a href="#voice">05 Voice</a>
+</div>
+
+<!-- 01 ─────────────────────────────── -->
+<section class="f" id="radar">
+  <div class="kicker">01 · SALES</div>
+  <h2>New client radar</h2>
+  <p class="lead">AI collects signals from people who may need bunkers and sorts them by priority.</p>
+  <ul class="pts">
+    <li>Requests in broker and operator chats, emails, mentions</li>
+    <li>Hot, warm or just a signal, with the most urgent on top</li>
+    <li>Follow-ups to those who got a quote and went quiet</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Radar · New clients and follow-ups</div>
+    <div class="body">
+      <div class="box">
+        <div class="row"><span class="av em">DK</span><div class="grow"><b>Daniel K., operator</b><div class="sm trunc">Telegram · bunker brokers chat</div></div><span class="pill em">hot</span></div>
+        <div style="margin-top:8px">“Need VLSFO for a bulker in Fujairah, who can quote today?”</div>
+        <div class="spec"><span class="sm">Vessel</span><b>MV Coral Wind · IMO 9512340</b><span class="sm">Port</span><b>Fujairah, anchorage</b><span class="sm">Fuel</span><b>VLSFO 0.5% S · 800 mt</b><span class="sm">ETA</span><b>14 Nov</b><span class="sm">Ship agent</span><b>Harbour Line Agency</b></div>
+        <div class="btns"><button class="btn p" data-reply="r1">✨ Draft a reply</button><button class="btn">Message</button><button class="btn">Done</button></div>
+        <div class="reply" id="r1">“Hi Daniel! We can prepare a quote for VLSFO 800 mt for MV Coral Wind (IMO 9512340) in Fujairah. Could you confirm the delivery window and barge or berth? I’ll send a price from today’s list.”<div class="xs" style="margin-top:6px">Draft: sent only after your “yes”</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av am">AM</span><div class="grow"><b>Anna M., fuel procurement</b><div class="sm trunc">LinkedIn · post</div></div><span class="pill am">warm</span></div>
+        <div style="margin-top:8px">Posted that she is looking for a second MGO supplier in Khor Fakkan for next quarter.</div>
+        <div class="btns"><button class="btn p" data-reply="r2">✨ Draft a reply</button><button class="btn">Message</button></div>
+        <div class="reply" id="r2">“Hi Anna, I saw your post about MGO in Khor Fakkan. We work in this port. Happy to share our terms briefly and send a quote for your volume. Would that be useful?”<div class="xs" style="margin-top:6px">Draft: sent only after your “yes”</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av sk">SG</span><div class="grow"><b>MV Silver Gull</b><div class="sm trunc">IMO 9634871 · regular client · under way</div></div><span class="pill sk">signal</span></div>
+        <div style="margin-top:8px">Heading to Fujairah, ETA in 2 days. Bunkered with you on previous calls; no order this time.</div>
+        <div class="btns"><button class="btn p" data-reply="r3">✨ Draft a reply</button><button class="btn">Done</button></div>
+        <div class="reply" id="r3">“Good day, Captain! We see Silver Gull (IMO 9634871) is heading to Fujairah. Will you need bunkers on this call? If so, let us know the grade and quantity and we’ll prepare a quote.”<div class="xs" style="margin-top:6px">Draft: sent only after your “yes”</div></div>
+      </div>
+      <div class="row note"><span>🔔</span><span class="grow">Follow up today: <b>6 companies</b> got a quote over 2 days ago and haven’t replied</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 ─────────────────────────────── -->
+<section class="f" id="inbox">
+  <div class="kicker">02 · COMMUNICATION</div>
+  <h2>All messengers in one feed</h2>
+  <p class="lead">Work and personal WhatsApp, Telegram and email in one feed, each chat tagged with its channel.</p>
+  <ul class="pts">
+    <li>Who is waiting for a reply and for how long, longest on top</li>
+    <li>Open a client and see all their conversations across channels</li>
+    <li>Photos of documents become text, voice notes become transcripts</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;💬 Feed · all channels</div>
+    <div class="body">
+      <div class="row" style="gap:6px;overflow-x:auto;scrollbar-width:none"><span class="pill" style="background:var(--text);color:#fff">All</span><span class="pill sl">WhatsApp work</span><span class="pill sl">WhatsApp personal</span><span class="pill sl">Telegram</span><span class="pill sl">Email</span></div>
+      <div class="box row"><span class="av sk">KS</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Kittiwake Shipping</b><span class="pill sk">Email</span></div><div class="xs trunc">Enquiry: VLSFO 600 mt + MGO 50 mt, Fujairah</div></div><span class="wait">waiting 3 h</span></div>
+      <div class="box row"><span class="av em">CL</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Captain Li</b><span class="pill em">WhatsApp</span></div><div class="xs trunc">Please confirm barge at 06:00</div></div><span class="wait">waiting 40 min</span></div>
+      <div class="box row"><span class="av vi">AB</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Alex, broker</b><span class="pill vi">Telegram</span></div><div class="xs trunc">🎙 Voice note 0:42 → “Any price for Singapore at month-end?”</div></div><span class="wait">waiting 1 day</span></div>
+      <div class="box">
+        <div class="sm" style="margin-bottom:8px"><b style="color:var(--text)">Captain Li</b> · WhatsApp work</div>
+        <div style="display:grid;gap:7px">
+          <div class="bub"><div>Good morning. Barge at 06:00 confirmed?<div class="meta">05:12</div></div></div>
+          <div class="bub"><div>📷 [Photo: BDN, VLSFO 598.4 mt, density 0.9912, viscosity 312 cSt]<div class="meta">photo as text</div></div></div>
+          <div class="bub me"><div>Confirmed, barge alongside 06:00.<div class="meta">05:20 · ✓✓</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ─────────────────────────────── -->
+<section class="f" id="agent">
+  <div class="kicker">03 · COMMUNICATION</div>
+  <h2>The agent drafts your reply</h2>
+  <p class="lead">Every client has their own AI agent that knows the whole history with them.</p>
+  <ul class="pts">
+    <li>Reads the client card, past orders, tasks and conversations</li>
+    <li>Offers 1–3 options and explains the purpose of each</li>
+    <li>“Redo with a comment” gives you a new option</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Agent: draft a reply · Kittiwake Shipping</div>
+    <div class="body">
+      <div class="box" style="background:#f8fafc">
+        <div class="sm">Email enquiry</div>
+        <div class="spec"><span class="sm">Vessel</span><b>MV Coral Wind, bulker · IMO 9512340</b><span class="sm">Port</span><b>Fujairah</b><span class="sm">Fuel</span><b>VLSFO 600 mt · MGO DMA 50 mt</b><span class="sm">ETA</span><b>14–15 Nov</b><span class="sm">Ship agent</span><b>Harbour Line Agency</b></div>
+      </div>
+      <div class="note sm">The agent read: the Kittiwake Shipping card, 4 past deliveries, today’s price list and the last 30 emails</div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">1</span><b>Quote right away</b></div><div style="margin-top:6px">“Good afternoon! MV Coral Wind (IMO 9512340), Fujairah, ETA 14–15 Nov: VLSFO 0.5% at $&nbsp;___/mt, MGO DMA at $&nbsp;___/mt, delivery by barge. Quote valid until 17:00 Dubai time.”</div><div class="xs" style="margin-top:4px">why: answers the enquiry in full, prices come from your price list</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">2</span><b>Clarify first</b></div><div style="margin-top:6px">“Good afternoon! We’ll prepare a quote. Could you confirm the ISO 8217 edition, anchorage or berth, and the delivery window?”</div><div class="xs" style="margin-top:4px">why: last time Kittiwake Shipping changed the delivery window, so it’s better to check first</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">3</span><b>With an alternative</b></div><div style="margin-top:6px">“Good afternoon! I’ll send the Fujairah quote within the hour. If it suits you better, we can also look at delivery in Khor Fakkan.”</div><div class="xs" style="margin-top:4px">why: gives the client a choice of port</div></div>
+      <div class="btns" style="margin-top:0"><button class="btn p">Use option 1</button><button class="btn">Redo with a comment</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ─────────────────────────────── -->
+<section class="f" id="gate">
+  <div class="kicker">04 · COMMUNICATION</div>
+  <h2>Nothing goes out without your “yes”</h2>
+  <p class="lead">The send gate: the agent suggests, you send.</p>
+  <ul class="pts">
+    <li>Exactly the approved text goes out, and only once</li>
+    <li>Limits per chat and account, pauses between messages</li>
+    <li>Approve from Telegram by replying “1”, “2” or “3”</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Send gate</div>
+    <div class="body">
+      <div class="gate">
+        <div class="sm" style="color:var(--am);font-weight:600">Awaiting approval · Email · Kittiwake Shipping</div>
+        <div style="margin-top:6px">“Good afternoon! MV Coral Wind (IMO 9512340), Fujairah, ETA 14–15 Nov: VLSFO 0.5% at $&nbsp;___/mt, MGO DMA at $&nbsp;___/mt…”</div>
+        <div class="btns"><button class="btn p" id="send">Yes, send</button><button class="btn">Edit</button><button class="btn">No</button></div>
+        <div class="sent" id="sent">✓ Sent after your “yes”</div>
+      </div>
+      <div class="box row"><span>🛡️</span><span>The agent never sends on its own, only after your approval</span></div>
+      <div class="box row"><span>🔒</span><span>Exactly the text you approved goes out</span></div>
+      <div class="box row"><span>🔁</span><span>Warns you if you have already sent the same “Noted” three times today</span></div>
+      <div class="note"><b>In Telegram:</b><br>“#7 Kittiwake Shipping: enquiry VLSFO 600 mt + MGO 50 mt, Fujairah. Options: 1 quote, 2 clarify, 3 alternative”<br>You reply <b>“1”</b> and the quote is sent.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ─────────────────────────────── -->
+<section class="f" id="voice">
+  <div class="kicker">05 · COMMUNICATION</div>
+  <h2>Voice assistant and Siri</h2>
+  <p class="lead">Control Pult by voice: in the car, in port, from a locked phone.</p>
+  <ul class="pts">
+    <li>“What’s urgent?” covers enquiries, quotes and chats</li>
+    <li>Go through incoming messages by voice: who, what they need, reply options</li>
+    <li>“Hey Siri, Pult” works on iPhone</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🎙 Voice assistant</div>
+    <div class="body">
+      <div class="bub me"><div>Pult, what’s urgent in enquiries today?</div></div>
+      <div class="bub"><div>Three enquiries without a quote: Kittiwake Shipping for Fujairah has been waiting since morning, broker Alex is asking about Singapore, and there’s a new request from the brokers chat. Also, Captain Li is waiting for the 06:00 barge confirmation.</div></div>
+      <div class="bub me"><div>Let’s do Kittiwake Shipping</div></div>
+      <div class="bub"><div>They need VLSFO 600 tonnes and MGO 50 tonnes in Fujairah, ETA 14–15 November. There’s a draft quote based on today’s price list. Send it?</div></div>
+      <div class="bub me"><div>Yes</div></div>
+      <div class="bub"><div>Sent. Next: broker Alex, Singapore.</div></div>
+      <div class="row" style="background:var(--vi-soft);color:var(--vi);border-radius:999px;padding:8px 14px;font-size:12.5px">
+        <span class="wave"><i style="height:5px"></i><i style="height:10px;animation-delay:.1s"></i><i style="height:15px;animation-delay:.2s"></i><i style="height:8px;animation-delay:.3s"></i><i style="height:13px;animation-delay:.4s"></i></span>
+        <span>Listening… “Hey Siri, Pult”</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b style="color:var(--text)">This is a demo.</b> All vessels, companies, names, volumes and messages are made up for illustration. Pult is set up around your own channels, ports and price list.
+</footer>
+
+</div>
+<script>
+document.querySelectorAll("[data-reply]").forEach(function(b){b.addEventListener("click",function(){var r=document.getElementById(b.dataset.reply);r.classList.add("show");b.textContent="✨ Reply ready";});});
+document.getElementById("send").addEventListener("click",function(){document.getElementById("sent").style.display="block";this.disabled=true;this.style.opacity=.5;});
+var chips=[].slice.call(document.querySelectorAll("#chips a"));
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){chips.forEach(function(c){var on=c.getAttribute("href")==="#"+e.target.id;c.classList.toggle("on",on);if(on){var box=c.parentNode;box.scrollTo({left:c.offsetLeft-box.clientWidth/2+c.clientWidth/2,behavior:"smooth"});}});}});},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.f").forEach(function(s){io.observe(s);});
+</script>
+</body>
+</html>
