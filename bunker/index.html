@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Пульт для бункерной компании · демо</title>
+<meta name="description" content="Демо: пять возможностей пульта на примерах из бункеровки">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--brand:#0b4f8a;--brand-soft:#0b4f8a14;--em:#047857;--em-soft:#10b98120;--am:#b45309;--am-soft:#f59e0b22;--sk:#0369a1;--sk-soft:#0ea5e91c;--vi:#6d28d9;--vi-soft:#8b5cf61c;--ro:#be123c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px calc(28px + env(safe-area-inset-bottom))}
+.demo{display:inline-block;background:var(--am-soft);color:var(--am);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+header.cover{padding:28px 4px 8px}
+.logo{width:52px;height:52px;border-radius:16px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
+h1{font-size:28px;line-height:1.15;margin:14px 0 8px;letter-spacing:-.02em}
+h2{font-size:21px;line-height:1.2;margin:4px 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 6px}
+.toc{display:grid;gap:8px;margin:18px 0 6px}
+.toc a{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--brand);font-size:13px;min-width:22px}
+.chips{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 14px;margin:0 -14px;background:#f4f6f9e8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;font-size:13px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:inherit;text-decoration:none;white-space:nowrap}
+.chips a.on{background:var(--brand);border-color:var(--brand);color:#fff}
+section.f{padding-top:22px;scroll-margin-top:52px}
+.kicker{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.06em}
+ul.pts{margin:8px 0 12px;padding:0;list-style:none;display:grid;gap:6px}
+ul.pts li{display:flex;gap:8px;font-size:14px}
+ul.pts li::before{content:"✓";color:var(--em);font-weight:700}
+.frame{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px #0f172a12}
+.bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--border);background:#f8fafc;font-size:12px;color:var(--muted);font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%}
+.body{padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;font-size:14px}
+.frame{max-width:100%}
+.box{border:1px solid var(--border);border-radius:14px;padding:11px;background:#fff}
+.row{display:flex;align-items:center;gap:9px}
+.grow{flex:1;min-width:0}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm{font-size:12px;color:var(--muted)}
+.xs{font-size:11px;color:var(--muted)}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pill{flex:none;display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600}
+.em{background:var(--em-soft);color:var(--em)}.am{background:var(--am-soft);color:var(--am)}.sk{background:var(--sk-soft);color:var(--sk)}.vi{background:var(--vi-soft);color:var(--vi)}.sl{background:#0f172a0d;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btn{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:7px 13px;border:1px solid var(--border);background:#fff;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn:active{transform:scale(.97)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;margin-top:8px}
+.spec b{font-weight:600}
+.reply{display:none;margin-top:9px;border-radius:12px;background:var(--sk-soft);padding:10px;font-size:13.5px}
+.reply.show{display:block;animation:up .35s both}
+.bub{display:flex}.bub>div{max-width:84%;border-radius:16px;padding:8px 11px;background:#0f172a0b}
+.bub.me{justify-content:flex-end}.bub.me>div{background:var(--sk-soft)}
+.meta{font-size:10px;color:var(--muted);text-align:right;margin-top:2px}
+.wait{color:var(--ro);font-size:11px;flex:none}
+.gate{border:1px solid #f59e0b55;background:var(--am-soft);border-radius:14px;padding:11px}
+.note{background:#0f172a08;border-radius:12px;padding:10px;font-size:13px}
+.wave{display:flex;align-items:flex-end;gap:2px;height:16px}
+.wave i{width:3px;border-radius:2px;background:var(--vi);animation:w 1s ease-in-out infinite alternate}
+@keyframes w{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sent{display:none;color:var(--em);font-weight:600;font-size:13px;margin-top:8px}
+footer{margin-top:28px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--border);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="logo">⚓</div>
+  <h1>Пульт для бункерной компании</h1>
+  <p class="lead">Запросы на бункеровку, котировки и переписка со всех каналов — на одном экране. ИИ-агент готовит ответы, решение и отправка — за вами.</p>
+  <span class="demo">Демо: все суда, компании, имена и цифры вымышлены</span>
+  <nav class="toc">
+    <a href="#radar"><span class="num">01</span><span>Радар новых клиентов</span></a>
+    <a href="#inbox"><span class="num">02</span><span>Все мессенджеры в одной ленте</span></a>
+    <a href="#agent"><span class="num">03</span><span>Агент готовит ответ за вас</span></a>
+    <a href="#gate"><span class="num">04</span><span>Ничего не уходит без вашего «да»</span></a>
+    <a href="#voice"><span class="num">05</span><span>Голосовой помощник и Siri</span></a>
+  </nav>
+</header>
+
+<div class="chips" id="chips">
+  <a href="#radar">01 Радар</a><a href="#inbox">02 Лента</a><a href="#agent">03 Агент</a><a href="#gate">04 «Да»</a><a href="#voice">05 Голос</a>
+</div>
+
+<!-- 01 ─────────────────────────────── -->
+<section class="f" id="radar">
+  <div class="kicker">01 · ПРОДАЖИ</div>
+  <h2>Радар новых клиентов</h2>
+  <p class="lead">ИИ собирает сигналы о тех, кому может понадобиться бункер, и раскладывает их по приоритету.</p>
+  <ul class="pts">
+    <li>Запросы в чатах брокеров и операторов, письма, упоминания</li>
+    <li>Горячий, тёплый или просто сигнал — сверху самое срочное</li>
+    <li>Напоминания тем, кто получил котировку и не ответил</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Радар · Новые клиенты и напоминания</div>
+    <div class="body">
+      <div class="box">
+        <div class="row"><span class="av em">ДК</span><div class="grow"><b>Дмитрий К., оператор</b><div class="sm trunc">Telegram · чат бункерных брокеров</div></div><span class="pill em">горячий</span></div>
+        <div style="margin-top:8px">«Нужен VLSFO на балкер, Фуджейра, кто даст цену сегодня?»</div>
+        <div class="spec"><span class="sm">Судно</span><b>MV Coral Wind</b><span class="sm">Порт</span><b>Фуджейра, рейд</b><span class="sm">Топливо</span><b>VLSFO 0,5% S · 800 т</b><span class="sm">ETA</span><b>14 ноября</b></div>
+        <div class="btns"><button class="btn p" data-reply="r1">✨ Придумать ответ</button><button class="btn">Написать</button><button class="btn">Готово</button></div>
+        <div class="reply" id="r1">«Дмитрий, добрый день! По MV Coral Wind в Фуджейре можем подготовить котировку на VLSFO 800 т. Подтвердите, пожалуйста, окно поставки и баржа или причал — пришлю цену из сегодняшнего прайса.»<div class="xs" style="margin-top:6px">Черновик — уйдёт только после вашего «да»</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av am">АМ</span><div class="grow"><b>Анна М., закупки топлива</b><div class="sm trunc">LinkedIn · пост</div></div><span class="pill am">тёплый</span></div>
+        <div style="margin-top:8px">Пишет, что ищет второго поставщика MGO в Хорфаккане на следующий квартал.</div>
+        <div class="btns"><button class="btn p" data-reply="r2">✨ Придумать ответ</button><button class="btn">Написать</button></div>
+        <div class="reply" id="r2">«Анна, здравствуйте! Увидел ваш пост про MGO в Хорфаккане. Работаем в этом порту — могу коротко рассказать об условиях и прислать котировку под ваш объём. Удобно?»<div class="xs" style="margin-top:6px">Черновик — уйдёт только после вашего «да»</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av sk">SG</span><div class="grow"><b>MV Silver Gull</b><div class="sm trunc">Ваш постоянный клиент · судно в пути</div></div><span class="pill sk">сигнал</span></div>
+        <div style="margin-top:8px">Судно идёт в Фуджейру, ETA через 2 суток. В прошлые заходы бункеровалось у вас, сейчас заказа нет.</div>
+        <div class="btns"><button class="btn p" data-reply="r3">✨ Придумать ответ</button><button class="btn">Готово</button></div>
+        <div class="reply" id="r3">«Капитан, добрый день! Видим, что Silver Gull идёт в Фуджейру. Нужен ли бункер в этот заход? Если да — подскажите сорт и объём, подготовим котировку.»<div class="xs" style="margin-top:6px">Черновик — уйдёт только после вашего «да»</div></div>
+      </div>
+      <div class="row note"><span>🔔</span><span class="grow">Напомнить сегодня: <b>6 компаний</b> получили котировку больше 2 дней назад и не ответили</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 ─────────────────────────────── -->
+<section class="f" id="inbox">
+  <div class="kicker">02 · ОБЩЕНИЕ</div>
+  <h2>Все мессенджеры в одной ленте</h2>
+  <p class="lead">Рабочий и личный WhatsApp, Telegram и почта — одна лента, у каждого чата метка канала.</p>
+  <ul class="pts">
+    <li>Кто ждёт ответа и сколько — дольше всех сверху</li>
+    <li>Открыли клиента — все его переписки во всех каналах рядом</li>
+    <li>Фото документов превращаются в текст, голосовые — в расшифровку</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;💬 Лента · все каналы</div>
+    <div class="body">
+      <div class="row" style="gap:6px;overflow-x:auto;scrollbar-width:none"><span class="pill" style="background:var(--text);color:#fff">Все</span><span class="pill sl">WhatsApp рабочий</span><span class="pill sl">WhatsApp личный</span><span class="pill sl">Telegram</span><span class="pill sl">Почта</span></div>
+      <div class="box row"><span class="av sk">KS</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Kittiwake Shipping</b><span class="pill sk">Почта</span></div><div class="xs trunc">Запрос: VLSFO 600 т + MGO 50 т, Фуджейра</div></div><span class="wait">ждёт 3 ч</span></div>
+      <div class="box row"><span class="av em">КЛ</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Капитан Ли</b><span class="pill em">WhatsApp</span></div><div class="xs trunc">Подтвердите время баржи на 06:00</div></div><span class="wait">ждёт 40 мин</span></div>
+      <div class="box row"><span class="av vi">АБ</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Алекс, брокер</b><span class="pill vi">Telegram</span></div><div class="xs trunc">🎙 Голосовое 0:42 → «Есть цена на Сингапур на конец месяца?»</div></div><span class="wait">ждёт 1 день</span></div>
+      <div class="box">
+        <div class="sm" style="margin-bottom:8px"><b style="color:var(--text)">Капитан Ли</b> · WhatsApp рабочий</div>
+        <div style="display:grid;gap:7px">
+          <div class="bub"><div>Good morning. Barge at 06:00 confirmed?<div class="meta">05:12 · перевод: «Доброе утро. Баржа в 06:00 подтверждена?»</div></div></div>
+          <div class="bub"><div>📷 [Фото: BDN — VLSFO 598,4 т, плотность 0,9912, вязкость 312 сСт]<div class="meta">фото словами</div></div></div>
+          <div class="bub me"><div>Confirmed, barge alongside 06:00.<div class="meta">05:20 · ✓✓</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ─────────────────────────────── -->
+<section class="f" id="agent">
+  <div class="kicker">03 · ОБЩЕНИЕ</div>
+  <h2>Агент готовит ответ за вас</h2>
+  <p class="lead">У каждого клиента свой ИИ-агент, который знает всю историю общения с ним.</p>
+  <ul class="pts">
+    <li>Читает карточку клиента, прошлые заказы, задачи и переписку</li>
+    <li>Даёт 1–3 варианта и объясняет, зачем каждый</li>
+    <li>«Переделать с комментарием» — и новый вариант</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Агент: подготовить ответ · Kittiwake Shipping</div>
+    <div class="body">
+      <div class="box" style="background:#f8fafc">
+        <div class="sm">Запрос по почте</div>
+        <div class="spec"><span class="sm">Судно</span><b>MV Coral Wind, балкер</b><span class="sm">Порт</span><b>Фуджейра</b><span class="sm">Топливо</span><b>VLSFO 600 т · MGO DMA 50 т</b><span class="sm">ETA</span><b>14–15 ноября</b></div>
+      </div>
+      <div class="note sm">Агент прочитал: карточку Kittiwake Shipping, 4 прошлых поставки, сегодняшний прайс и последние 30 писем</div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">1</span><b>Котировка сразу</b></div><div style="margin-top:6px">«Добрый день! По MV Coral Wind, Фуджейра, ETA 14–15.11: VLSFO 0,5% — $&nbsp;___/т, MGO DMA — $&nbsp;___/т, поставка баржей. Котировка действует до 17:00 по Дубаю.»</div><div class="xs" style="margin-top:4px">зачем: отвечает на запрос полностью, цены подставляются из вашего прайса</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">2</span><b>Сначала уточнить</b></div><div style="margin-top:6px">«Добрый день! Подготовим котировку. Уточните, пожалуйста: спецификация ISO 8217 какого года, рейд или причал и окно поставки?»</div><div class="xs" style="margin-top:4px">зачем: в прошлый раз Kittiwake Shipping меняли окно поставки — лучше уточнить заранее</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">3</span><b>С альтернативой</b></div><div style="margin-top:6px">«Добрый день! Котировку по Фуджейре пришлю в течение часа. Если удобнее, можем также рассмотреть поставку в Хорфаккане.»</div><div class="xs" style="margin-top:4px">зачем: даёт клиенту выбор порта</div></div>
+      <div class="btns" style="margin-top:0"><button class="btn p">Взять вариант 1</button><button class="btn">Переделать с комментарием</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ─────────────────────────────── -->
+<section class="f" id="gate">
+  <div class="kicker">04 · ОБЩЕНИЕ</div>
+  <h2>Ничего не уходит без вашего «да»</h2>
+  <p class="lead">Ворота отправки: агент предлагает, отправляете вы.</p>
+  <ul class="pts">
+    <li>Уходит ровно подтверждённый текст, и только один раз</li>
+    <li>Лимиты на чат и аккаунт, паузы между сообщениями</li>
+    <li>Подтвердить можно из Telegram цифрой «1», «2» или «3»</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Ворота отправки</div>
+    <div class="body">
+      <div class="gate">
+        <div class="sm" style="color:var(--am);font-weight:600">Ждёт подтверждения · Почта · Kittiwake Shipping</div>
+        <div style="margin-top:6px">«Добрый день! По MV Coral Wind, Фуджейра, ETA 14–15.11: VLSFO 0,5% — $&nbsp;___/т, MGO DMA — $&nbsp;___/т…»</div>
+        <div class="btns"><button class="btn p" id="send">Да, отправить</button><button class="btn">Правка</button><button class="btn">Нет</button></div>
+        <div class="sent" id="sent">✓ Отправлено после вашего «да»</div>
+      </div>
+      <div class="box row"><span>🛡️</span><span>Агент сам ничего не отправляет — только после вашего подтверждения</span></div>
+      <div class="box row"><span>🔒</span><span>Уходит ровно тот текст, который вы подтвердили</span></div>
+      <div class="box row"><span>🔁</span><span>Предупредит, если вы сегодня уже трижды отправили одно и то же «Принято»</span></div>
+      <div class="note"><b>В Telegram:</b><br>«#7 Kittiwake Shipping: запрос VLSFO 600 т + MGO 50 т, Фуджейра. Варианты: 1 — котировка, 2 — уточнить, 3 — с альтернативой»<br>Вы отвечаете <b>«1»</b> — и котировка ушла.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ─────────────────────────────── -->
+<section class="f" id="voice">
+  <div class="kicker">05 · ОБЩЕНИЕ</div>
+  <h2>Голосовой помощник и Siri</h2>
+  <p class="lead">Пультом можно управлять голосом — в машине, в порту, с заблокированного телефона.</p>
+  <ul class="pts">
+    <li>«Что горит?» — расскажет про запросы, котировки и чаты</li>
+    <li>Разбор входящих голосом: кто, что нужно, варианты ответа</li>
+    <li>«Привет, Siri, пульт» — работает с iPhone</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🎙 Голосовой помощник</div>
+    <div class="body">
+      <div class="bub me"><div>Пульт, что горит сегодня по запросам?</div></div>
+      <div class="bub"><div>Три запроса без котировки: Kittiwake Shipping по Фуджейре ждёт с утра, брокер Алекс спрашивает Сингапур, и новый запрос из чата брокеров. Ещё капитан Ли ждёт подтверждения баржи на 06:00.</div></div>
+      <div class="bub me"><div>Давай по Kittiwake Shipping</div></div>
+      <div class="bub"><div>Просят VLSFO 600 тонн и MGO 50 тонн в Фуджейре, ETA 14–15 ноября. Есть вариант котировки по сегодняшнему прайсу. Отправить?</div></div>
+      <div class="bub me"><div>Да</div></div>
+      <div class="bub"><div>Отправил. Следующий — брокер Алекс, Сингапур.</div></div>
+      <div class="row" style="background:var(--vi-soft);color:var(--vi);border-radius:999px;padding:8px 14px;font-size:12.5px">
+        <span class="wave"><i style="height:5px"></i><i style="height:10px;animation-delay:.1s"></i><i style="height:15px;animation-delay:.2s"></i><i style="height:8px;animation-delay:.3s"></i><i style="height:13px;animation-delay:.4s"></i></span>
+        <span>Слушаю… «Привет, Siri, пульт»</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b style="color:var(--text)">Это демо.</b> Все суда, компании, имена, объёмы и переписка придуманы для примера. Пульт настраивается под ваши каналы, порты и прайс.
+</footer>
+
+</div>
+<script>
+document.querySelectorAll("[data-reply]").forEach(function(b){b.addEventListener("click",function(){var r=document.getElementById(b.dataset.reply);r.classList.add("show");b.textContent="✨ Ответ готов";});});
+document.getElementById("send").addEventListener("click",function(){document.getElementById("sent").style.display="block";this.disabled=true;this.style.opacity=.5;});
+var chips=[].slice.call(document.querySelectorAll("#chips a"));
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){chips.forEach(function(c){var on=c.getAttribute("href")==="#"+e.target.id;c.classList.toggle("on",on);if(on){var box=c.parentNode;box.scrollTo({left:c.offsetLeft-box.clientWidth/2+c.clientWidth/2,behavior:"smooth"});}});}});},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.f").forEach(function(s){io.observe(s);});
+</script>
+</body>
+</html>
