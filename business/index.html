@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Пульт для управления бизнесом · демо</title>
+<meta name="description" content="Демо: как владелец ведёт несколько бизнесов с одного пульта">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--brand:#0b4f8a;--brand-soft:#0b4f8a14;--em:#047857;--em-soft:#10b98120;--am:#b45309;--am-soft:#f59e0b22;--sk:#0369a1;--sk-soft:#0ea5e91c;--vi:#6d28d9;--vi-soft:#8b5cf61c;--ro:#be123c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px calc(28px + env(safe-area-inset-bottom))}
+.demo{display:inline-block;background:var(--am-soft);color:var(--am);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+header.cover{padding:28px 4px 8px}
+.logo{width:52px;height:52px;border-radius:16px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
+h1{font-size:28px;line-height:1.15;margin:14px 0 8px;letter-spacing:-.02em}
+h2{font-size:21px;line-height:1.2;margin:4px 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 6px}
+.toc{display:grid;gap:8px;margin:18px 0 6px}
+.toc a{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--brand);font-size:13px;min-width:22px}
+.chips{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 14px;margin:0 -14px;background:#f4f6f9e8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;font-size:13px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:inherit;text-decoration:none;white-space:nowrap}
+.chips a.on{background:var(--brand);border-color:var(--brand);color:#fff}
+section.f{padding-top:22px;scroll-margin-top:52px}
+.kicker{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.06em}
+ul.pts{margin:8px 0 12px;padding:0;list-style:none;display:grid;gap:6px}
+ul.pts li{display:flex;gap:8px;font-size:14px}
+ul.pts li::before{content:"✓";color:var(--em);font-weight:700}
+.frame{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px #0f172a12}
+.bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--border);background:#f8fafc;font-size:12px;color:var(--muted);font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%}
+.body{padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;font-size:14px}
+.frame{max-width:100%}
+.box{border:1px solid var(--border);border-radius:14px;padding:11px;background:#fff}
+.row{display:flex;align-items:center;gap:9px}
+.grow{flex:1;min-width:0}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm{font-size:12px;color:var(--muted)}
+.xs{font-size:11px;color:var(--muted)}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pill{flex:none;display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600}
+.em{background:var(--em-soft);color:var(--em)}.am{background:var(--am-soft);color:var(--am)}.sk{background:var(--sk-soft);color:var(--sk)}.vi{background:var(--vi-soft);color:var(--vi)}.sl{background:#0f172a0d;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btn{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:7px 13px;border:1px solid var(--border);background:#fff;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn:active{transform:scale(.97)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;margin-top:8px}
+.spec b{font-weight:600}
+.reply{display:none;margin-top:9px;border-radius:12px;background:var(--sk-soft);padding:10px;font-size:13.5px}
+.reply.show{display:block;animation:up .35s both}
+.bub{display:flex}.bub>div{max-width:84%;border-radius:16px;padding:8px 11px;background:#0f172a0b}
+.bub.me{justify-content:flex-end}.bub.me>div{background:var(--sk-soft)}
+.meta{font-size:10px;color:var(--muted);text-align:right;margin-top:2px}
+.wait{color:var(--ro);font-size:11px;flex:none}
+.gate{border:1px solid #f59e0b55;background:var(--am-soft);border-radius:14px;padding:11px}
+.note{background:#0f172a08;border-radius:12px;padding:10px;font-size:13px}
+.wave{display:flex;align-items:flex-end;gap:2px;height:16px}
+.wave i{width:3px;border-radius:2px;background:var(--vi);animation:w 1s ease-in-out infinite alternate}
+@keyframes w{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sent{display:none;color:var(--em);font-weight:600;font-size:13px;margin-top:8px}
+footer{margin-top:28px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--border);font-size:13px;color:var(--muted)}
+</style>
+<style>
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.kpi{border:1px solid var(--border);border-radius:14px;padding:10px;background:#fff}
+.kpi .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.meter{height:7px;border-radius:999px;background:#0f172a10;overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;border-radius:999px;background:var(--brand)}
+.biz{border:1px solid var(--border);border-radius:14px;padding:10px 11px;background:#fff}
+.biz .t{display:flex;align-items:center;gap:8px}
+.biz .n{display:flex;gap:12px;margin-top:6px;font-size:12px;color:var(--muted)}
+.biz .n b{color:var(--text);font-variant-numeric:tabular-nums}
+.stage{display:grid;gap:6px}
+.stage .h{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.03em;margin-top:2px}
+.task{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--border);border-radius:12px;padding:9px 10px;background:#fff}
+.chk{flex:none;width:20px;height:20px;border-radius:6px;border:2px solid #cbd5e1;margin-top:1px;cursor:pointer;background:#fff}
+.task.done{opacity:.55}.task.done .chk{background:var(--em);border-color:var(--em)}
+.task.done .tt{text-decoration:line-through}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs span{flex:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="logo">🎛</div>
+  <h1>Пульт для управления бизнесом</h1>
+  <p class="lead">Все ваши бизнесы, сделки, деньги, задачи и переписка — на одном экране. ИИ-агенты знают контекст каждого проекта, готовят ответы и следующий шаг. Решаете и отправляете — вы.</p>
+  <span class="demo">Демо на примере реального пульта предпринимателя с 12 бизнесами. Названия, имена и цифры вымышлены</span>
+  <nav class="toc">
+    <a href="#all"><span class="num">01</span><span>Все бизнесы на одном экране</span></a>
+    <a href="#today"><span class="num">02</span><span>«Сегодня»: что сделать прямо сейчас</span></a>
+    <a href="#deals"><span class="num">03</span><span>Сделки по этапам</span></a>
+    <a href="#money"><span class="num">04</span><span>Деньги и цели месяца</span></a>
+    <a href="#inbox"><span class="num">05</span><span>Все мессенджеры в одной ленте</span></a>
+    <a href="#agent"><span class="num">06</span><span>Агент готовит ответ, отправляете вы</span></a>
+    <a href="#context"><span class="num">07</span><span>ИИ знает каждый бизнес</span></a>
+    <a href="#voice"><span class="num">08</span><span>Голосовой помощник и Siri</span></a>
+  </nav>
+</header>
+
+<div class="chips" id="chips">
+  <a href="#all">01 Бизнесы</a><a href="#today">02 Сегодня</a><a href="#deals">03 Сделки</a><a href="#money">04 Деньги</a><a href="#inbox">05 Лента</a><a href="#agent">06 Агент</a><a href="#context">07 Контекст</a><a href="#voice">08 Голос</a>
+</div>
+
+<!-- 01 ─────────────────────────────── -->
+<section class="f" id="all">
+  <div class="kicker">01 · ОБЗОР</div>
+  <h2>Все бизнесы на одном экране</h2>
+  <p class="lead">Открыли пульт утром — и за десять секунд видно, где деньги, где горит и куда идти первым.</p>
+  <ul class="pts">
+    <li>Сколько пришло в этом месяце и сколько ещё должны заплатить</li>
+    <li>Сколько реально стоят открытые сделки с учётом вероятности</li>
+    <li>Карточка каждого бизнеса: задачи на сегодня, новые клиенты, сделки в работе</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🎛 Все бизнесы · ноябрь</div>
+    <div class="body">
+      <div class="kpis">
+        <div class="kpi"><div class="xs">Пришло за месяц</div><div class="v">1 840 000 ₽</div></div>
+        <div class="kpi"><div class="xs">Ещё оплатят в ноябре</div><div class="v">960 000 ₽</div></div>
+        <div class="kpi"><div class="xs">Сделки с учётом шанса</div><div class="v">4,2 млн ₽</div></div>
+        <div class="kpi"><div class="xs">Новых клиентов за неделю</div><div class="v">23 <span class="sm">/ цель 30</span></div><div class="meter"><i style="width:77%"></i></div></div>
+      </div>
+      <div class="biz"><div class="t"><span>🤖</span><b class="grow trunc">SaaS: чат-бот для бизнеса</b><span class="pill ro" style="background:#be123c14;color:var(--ro)">7 на сегодня</span></div><div class="n"><span>сделок <b>37</b></span><span>новых <b>12</b></span><span>месяц <b>620 тыс ₽</b></span></div></div>
+      <div class="biz"><div class="t"><span>💻</span><b class="grow trunc">Разработка сайтов и ботов</b><span class="pill am">4 на сегодня</span></div><div class="n"><span>сделок <b>18</b></span><span>новых <b>5</b></span><span>месяц <b>540 тыс ₽</b></span></div></div>
+      <div class="biz"><div class="t"><span>🎬</span><b class="grow trunc">Контент-завод для экспертов</b><span class="pill am">1 на сегодня</span></div><div class="n"><span>сделок <b>6</b></span><span>новых <b>3</b></span><span>месяц <b>310 тыс ₽</b></span></div></div>
+      <div class="biz"><div class="t"><span>🏝</span><b class="grow trunc">Аренда вилл на Бали</b><span class="pill em">всё сделано</span></div><div class="n"><span>сделок <b>4</b></span><span>объектов <b>9</b></span><span>месяц <b>$ 3 800</b></span></div></div>
+      <div class="biz"><div class="t"><span>📦</span><b class="grow trunc">Импорт-экспорт</b><span class="pill am">1 на сегодня</span></div><div class="n"><span>поставщиков <b>14</b></span><span>покупателей <b>8</b></span><span>сделок <b>2</b></span></div></div>
+      <div class="row note"><span>＋</span><span class="grow">ещё 7 бизнесов: сауны, брокерство, партнёрский проект в Европе, медитации…</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 ─────────────────────────────── -->
+<section class="f" id="today">
+  <div class="kicker">02 · ЗАДАЧИ</div>
+  <h2>«Сегодня»: что сделать прямо сейчас</h2>
+  <p class="lead">Просроченное, сегодняшнее и следующий шаг каждой сделки — одним списком по всем бизнесам.</p>
+  <ul class="pts">
+    <li>Задача знает сделку, людей и что уже обещали</li>
+    <li>«Готово», «на завтра», «отменить» — одним касанием</li>
+    <li>«Спросить ИИ» открывает чат рядом, контекст задачи уже внутри</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;✅ Сегодня · вторник, 10 ноября</div>
+    <div class="body">
+      <div class="tabs"><span class="pill" style="background:var(--text);color:#fff">Все бизнесы</span><span class="pill sl">SaaS</span><span class="pill sl">Разработка</span><span class="pill sl">Контент</span><span class="pill sl">Виллы</span></div>
+      <div class="task"><span class="chk"></span><div class="grow"><div class="tt"><b>Сдать сайт клинике</b> — финальная приёмка</div><div class="xs">Разработка · сделка «Сайт для клиники» · 180 000 ₽ · <span style="color:var(--ro)">просрочено на 1 день</span></div></div></div>
+      <div class="task"><span class="chk"></span><div class="grow"><div class="tt"><b>Студия йоги:</b> приняли треть работы. Довести приёмку и выставить счёт на 60 000 ₽</div><div class="xs">Разработка · 11:00</div></div></div>
+      <div class="task"><span class="chk"></span><div class="grow"><div class="tt"><b>4 заявки с сайта</b> — написать в WhatsApp</div><div class="xs">SaaS · пришли ночью · черновики готовы</div></div></div>
+      <div class="task"><span class="chk"></span><div class="grow"><div class="tt"><b>Игорь</b> обещал 1 ноября вернуть 30 000 ₽ — проверить поступление</div><div class="xs">Личное · долг · напомнить мягко</div></div></div>
+      <div class="task"><span class="chk"></span><div class="grow"><div class="tt"><b>Созвон с поставщиком</b> по образцам</div><div class="xs">Импорт-экспорт · 16:00 по Бали</div></div></div>
+      <div class="btns" style="margin-top:0"><button class="btn p">✨ Спросить ИИ: с чего начать?</button><button class="btn">+ Задача</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ─────────────────────────────── -->
+<section class="f" id="deals">
+  <div class="kicker">03 · ПРОДАЖИ</div>
+  <h2>Сделки по этапам</h2>
+  <p class="lead">Каждая сделка — с суммой, шансом и следующим шагом. Без шага сделка не живёт: пульт напомнит.</p>
+  <ul class="pts">
+    <li>Этапы от первого контакта до повторной продажи</li>
+    <li>В карточке — вся история: заметки, звонки, переписка, оплаты</li>
+    <li>«Не случилось» с причиной — чтобы видеть, где теряете</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;💼 Сделки · Разработка сайтов и ботов</div>
+    <div class="body">
+      <div class="stage">
+        <div class="h"><span>ПЕРЕГОВОРЫ</span><span>3 · 420 тыс ₽</span></div>
+        <div class="box"><div class="row"><b class="grow trunc">Бот записи для барбершопа</b><span class="pill sk">60%</span></div><div class="sm">90 000 ₽ · след. шаг: прислать прототип до пятницы</div></div>
+        <div class="box"><div class="row"><b class="grow trunc">CRM для школы танцев</b><span class="pill sk">40%</span></div><div class="sm">250 000 ₽ · след. шаг: созвон с директором 12.11</div></div>
+      </div>
+      <div class="stage">
+        <div class="h"><span>КП ОТПРАВЛЕНО</span><span>2 · 310 тыс ₽</span></div>
+        <div class="box"><div class="row"><b class="grow trunc">Интернет-магазин керамики</b><span class="pill am">молчат 4 дня</span></div><div class="sm">160 000 ₽ · след. шаг: напомнить одним вопросом</div></div>
+      </div>
+      <div class="stage">
+        <div class="h"><span>В РАБОТЕ</span><span>2 · 330 тыс ₽</span></div>
+        <div class="box"><div class="row"><b class="grow trunc">Сайт для клиники</b><span class="pill em">оплачено 50%</span></div><div class="sm">180 000 ₽ · след. шаг: сдать и получить остаток</div></div>
+      </div>
+      <div class="btns" style="margin-top:0"><button class="btn p">+ Сделка</button><button class="btn">Заметка в историю</button><button class="btn">Не случилось</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ─────────────────────────────── -->
+<section class="f" id="money">
+  <div class="kicker">04 · ДЕНЬГИ</div>
+  <h2>Деньги и цели месяца</h2>
+  <p class="lead">Цели на месяц по каждому бизнесу и прогресс к ним — без таблиц и ручного подсчёта.</p>
+  <ul class="pts">
+    <li>Выручка считается сама из оплат в сделках</li>
+    <li>Клиенты, средний чек, оборот, чистая прибыль, долги, часы</li>
+    <li>Таймер времени: сколько часов ушло на сделку и окупилась ли она</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;📊 Цифры · цели ноября</div>
+    <div class="body">
+      <div class="box"><div class="row"><b class="grow">SaaS: выручка</b><span class="sm">620 / 900 тыс ₽</span></div><div class="meter"><i style="width:69%"></i></div></div>
+      <div class="box"><div class="row"><b class="grow">SaaS: платящих пользователей</b><span class="sm">148 / 200</span></div><div class="meter"><i style="width:74%;background:var(--em)"></i></div></div>
+      <div class="box"><div class="row"><b class="grow">Разработка: выручка</b><span class="sm">540 / 600 тыс ₽</span></div><div class="meter"><i style="width:90%;background:var(--em)"></i></div></div>
+      <div class="box"><div class="row"><b class="grow">Контент-завод: новых авторов</b><span class="sm">1 / 4</span></div><div class="meter"><i style="width:25%;background:var(--am)"></i></div></div>
+      <div class="kpis">
+        <div class="kpi"><div class="xs">Средний чек</div><div class="v">72 000 ₽</div></div>
+        <div class="kpi"><div class="xs">Чистая прибыль</div><div class="v">1,1 млн ₽</div></div>
+        <div class="kpi"><div class="xs">Вам должны</div><div class="v" style="color:var(--ro)">235 000 ₽</div></div>
+        <div class="kpi"><div class="xs">Часов в работе</div><div class="v">86 ч</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ─────────────────────────────── -->
+<section class="f" id="inbox">
+  <div class="kicker">05 · ОБЩЕНИЕ</div>
+  <h2>Все мессенджеры в одной ленте</h2>
+  <p class="lead">Рабочий и личный WhatsApp, несколько Telegram-аккаунтов, Instagram и почта — одна лента, у каждого чата метка бизнеса.</p>
+  <ul class="pts">
+    <li>Кто ждёт ответа и сколько — дольше всех сверху</li>
+    <li>Открыли человека — его сделки, задачи и все переписки рядом</li>
+    <li>Голосовые сразу расшифрованы, фото описаны словами</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;💬 Лента · все каналы</div>
+    <div class="body">
+      <div class="tabs"><span class="pill" style="background:var(--text);color:#fff">Все</span><span class="pill sl">WhatsApp рабочий</span><span class="pill sl">WhatsApp личный</span><span class="pill sl">Telegram</span><span class="pill sl">Instagram</span><span class="pill sl">Почта</span></div>
+      <div class="box row"><span class="av sk">МК</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Марина, клиника</b><span class="pill em">WhatsApp</span></div><div class="xs trunc">Разработка · «Когда можно посмотреть финальную версию?»</div></div><span class="wait">ждёт 2 ч</span></div>
+      <div class="box row"><span class="av vi">ДС</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Денис, барбершоп</b><span class="pill vi">Telegram</span></div><div class="xs trunc">🎤 Голосовое 1:12 → «А бот сможет брать предоплату?»</div></div><span class="wait">ждёт 5 ч</span></div>
+      <div class="box row"><span class="av am">ВА</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Villa Amara, владелец</b><span class="pill am">Instagram</span></div><div class="xs trunc">Виллы · 📷 Фото: договор аренды, стр. 2</div></div><span class="wait">ждёт 1 день</span></div>
+      <div class="box">
+        <div class="sm" style="margin-bottom:8px"><b style="color:var(--text)">👤 Денис, барбершоп</b> · сделка «Бот записи» · 90 000 ₽ · 60%</div>
+        <div style="display:grid;gap:7px">
+          <div class="bub"><div>🎤 «Слушай, а бот сможет сразу брать предоплату, чтобы не было неявок?»<div class="meta">09:41 · расшифровка голосового</div></div></div>
+          <div class="note xs">Задача по сделке: прислать прототип до пятницы</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ─────────────────────────────── -->
+<section class="f" id="agent">
+  <div class="kicker">06 · ОБЩЕНИЕ</div>
+  <h2>Агент готовит ответ, отправляете вы</h2>
+  <p class="lead">У каждого человека свой ИИ-агент: он прочитал всю историю, карточку сделки и правила вашего бизнеса.</p>
+  <ul class="pts">
+    <li>1–3 варианта ответа и зачем каждый</li>
+    <li>«Переделать с комментарием» — и новый вариант</li>
+    <li>Ничего не уходит без вашего «да», даже из Telegram цифрой</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Агент · ответ Денису</div>
+    <div class="body">
+      <div class="note sm">Агент прочитал: 34 сообщения с Денисом, сделку «Бот записи», прайс разработки и ваше правило «на ты, коротко, без канцелярита»</div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">1</span><b>Да, и как это работает</b></div><div style="margin-top:6px">«Да, сможет: клиент выбирает время и сразу вносит предоплату картой, без неё запись не встаёт. В пятницу покажу на прототипе.»</div><div class="xs" style="margin-top:4px">зачем: отвечает на вопрос и закрепляет пятницу</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill sk">2</span><b>Да, плюс допродажа</b></div><div style="margin-top:6px">«Сможет. Ещё можно напоминание за 2 часа — неявок станет ещё меньше. Добавить в прототип?»</div><div class="xs" style="margin-top:4px">зачем: поднимает чек на модуль напоминаний</div></div>
+      <div class="gate">
+        <div class="sm" style="color:var(--am);font-weight:600">Ждёт подтверждения · Telegram · Денис</div>
+        <div style="margin-top:6px">«Да, сможет: клиент выбирает время и сразу вносит предоплату картой…»</div>
+        <div class="btns"><button class="btn p" id="send">Да, отправить</button><button class="btn">Правка</button><button class="btn">Нет</button></div>
+        <div class="sent" id="sent">✓ Отправлено после вашего «да»</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 ─────────────────────────────── -->
+<section class="f" id="context">
+  <div class="kicker">07 · КОНТЕКСТ</div>
+  <h2>ИИ знает каждый бизнес</h2>
+  <p class="lead">Что продаёт бизнес, цели, правила общения, договорённости с людьми — всё хранится в пульте, и каждый агент работает с этим.</p>
+  <ul class="pts">
+    <li>Записи встреч и звонков (диктофон, Plaud) расшифровываются сами</li>
+    <li>«Предложи сам»: ИИ решает, к какому бизнесу, сделке или человеку это относится</li>
+    <li>Видно, что именно получает ИИ в каждой задаче</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🧠 Контекст · входящие записи</div>
+    <div class="body">
+      <div class="box">
+        <div class="row"><span>🎙</span><div class="grow"><b>Встреча в кафе, 42 мин</b><div class="xs">Plaud · сегодня 13:20 · расшифровано</div></div></div>
+        <div class="btns"><button class="btn p" data-reply="c1">🤖 Предложи сам</button><button class="btn">Разложить вручную</button></div>
+        <div class="reply" id="c1">
+          <b>Куда это относится:</b>
+          <div style="margin-top:6px">🏝 <b>Аренда вилл</b> — владелец Villa Amara готов отдать ещё 2 объекта на 3 года, ждёт условия до 15.11</div>
+          <div style="margin-top:4px">👤 <b>Карточка: Алекс, владелец</b> — предпочитает голосовые, решения принимает с женой</div>
+          <div style="margin-top:4px">✅ <b>Задача</b> — прислать условия по двум объектам до 15.11</div>
+          <div class="xs" style="margin-top:6px">Можно поправить перед сохранением. Никому ничего не отправляется</div>
+        </div>
+      </div>
+      <div class="box"><div class="sm">Что получает ИИ по бизнесу «Аренда вилл»</div><div style="margin-top:4px;font-size:13px">Что продаём · цены и комиссия · 9 объектов · правила общения с владельцами · 4 открытые сделки · история договорённостей</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 ─────────────────────────────── -->
+<section class="f" id="voice">
+  <div class="kicker">08 · ГОЛОС</div>
+  <h2>Голосовой помощник и Siri</h2>
+  <p class="lead">Пультом можно управлять голосом — за рулём, на прогулке, с заблокированного телефона.</p>
+  <ul class="pts">
+    <li>«Что горит по всем бизнесам?» — короткая сводка</li>
+    <li>Разбор чатов голосом: кто, что хочет, варианты ответа</li>
+    <li>«Привет, Siri, пульт» — работает с iPhone</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🎙 Голосовой помощник</div>
+    <div class="body">
+      <div class="bub me"><div>Пульт, что горит сегодня?</div></div>
+      <div class="bub"><div>Три вещи. Клиника ждёт сдачу сайта со вчера. Четыре заявки на бота пришли ночью, черновики готовы. И Игорь не вернул 30 тысяч, как обещал первого.</div></div>
+      <div class="bub me"><div>Давай заявки</div></div>
+      <div class="bub"><div>Первая — салон красоты из Казани, хотят бота для записи. Предлагаю: «Здравствуйте! Видел заявку — расскажите, сколько у вас мастеров?» Отправить?</div></div>
+      <div class="bub me"><div>Да</div></div>
+      <div class="bub"><div>Отправил. Следующая — автосервис…</div></div>
+      <div class="row" style="background:var(--vi-soft);color:var(--vi);border-radius:999px;padding:8px 14px;font-size:12.5px">
+        <span class="wave"><i style="height:5px"></i><i style="height:10px;animation-delay:.1s"></i><i style="height:15px;animation-delay:.2s"></i><i style="height:8px;animation-delay:.3s"></i><i style="height:13px;animation-delay:.4s"></i></span>
+        <span>Слушаю… «Привет, Siri, пульт»</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b style="color:var(--text)">Это демо.</b> Устройство взято с реального пульта, которым предприниматель каждый день ведёт 12 бизнесов. Все названия, имена, суммы и переписка придуманы для примера. Пульт настраивается под ваши бизнесы, каналы и процессы.
+</footer>
+
+</div>
+<script>
+document.querySelectorAll("[data-reply]").forEach(function(b){b.addEventListener("click",function(){document.getElementById(b.dataset.reply).classList.add("show");b.textContent="✨ Готово";});});
+document.querySelectorAll(".chk").forEach(function(c){c.addEventListener("click",function(){c.parentNode.classList.toggle("done");});});
+document.getElementById("send").addEventListener("click",function(){document.getElementById("sent").style.display="block";this.disabled=true;this.style.opacity=.5;});
+var chips=[].slice.call(document.querySelectorAll("#chips a"));
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){chips.forEach(function(c){var on=c.getAttribute("href")==="#"+e.target.id;c.classList.toggle("on",on);if(on){var box=c.parentNode;box.scrollTo({left:c.offsetLeft-box.clientWidth/2+c.clientWidth/2,behavior:"smooth"});}});}});},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.f").forEach(function(s){io.observe(s);});
+</script>
+</body>
+</html>
