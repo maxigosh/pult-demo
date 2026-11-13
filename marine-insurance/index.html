@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06080d">
+<title>Pult for marine insurers · demo</title>
+<meta name="description" content="Demo: how an AI Pult helps marine insurers and brokers talk to every shipowner, every day">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080d;--bg2:#0b0f17;--card:#10151f;--card2:#151c29;--text:#eef2f8;--muted:#8b97ab;--border:#ffffff14;--brand:#2de2c4;--brand2:#7c8cff;--brand-soft:#2de2c41a;--em:#34d399;--em-soft:#34d3991c;--am:#fbbf24;--am-soft:#fbbf241c;--sk:#38bdf8;--sk-soft:#38bdf81c;--vi:#a78bfa;--vi-soft:#a78bfa1f;--ro:#fb7185;--ro-soft:#fb71851c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;background:radial-gradient(900px 600px at 85% -10%,#2de2c422,transparent 60%),radial-gradient(800px 600px at -20% 20%,#7c8cff1f,transparent 60%),var(--bg);background-attachment:fixed;color:var(--text);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
+h1,h2,.big{font-family:"Space Grotesk",Inter,sans-serif}
+.demo{display:inline-block;background:var(--am-soft);color:var(--am);border:1px solid #fbbf2433;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600}
+header.cover{padding:26px 2px 6px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em}
+.logo i{font-style:normal;width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#06080d;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 30px #2de2c440}
+.tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 10px}
+h1{font-size:34px;line-height:1.06;margin:22px 0 10px;letter-spacing:-.03em}
+h1 em,h2 em{font-style:normal;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:24px;line-height:1.15;margin:6px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--muted);margin:0 0 8px}
+.pillars{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.pillars span{font-size:12px;font-weight:600;border-radius:999px;padding:6px 11px;background:var(--card);border:1px solid var(--border)}
+.pillars b{color:var(--brand)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 4px}
+.stat{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:16px;padding:12px}
+.stat .big{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.stat .big small{font-size:13px;color:var(--brand)}
+.src{font-size:10.5px;color:#64708a;margin-top:6px}
+.toc{display:grid;gap:6px;margin:18px 0 4px}
+.toc a{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:11px 13px;color:inherit;text-decoration:none;font-size:14px}
+.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--brand);font-size:12px;min-width:20px}
+.chips{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 16px;margin:0 -16px;background:#06080dd9;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);scrollbar-width:none;border-bottom:1px solid var(--border)}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;font-size:12.5px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:var(--muted);text-decoration:none;white-space:nowrap}
+.chips a.on{background:var(--brand);border-color:var(--brand);color:#06080d;font-weight:600}
+section.f{padding-top:30px;scroll-margin-top:54px}
+.kicker{font-size:11.5px;font-weight:700;color:var(--brand);letter-spacing:.12em}
+ul.pts{margin:8px 0 14px;padding:0;list-style:none;display:grid;gap:6px}
+ul.pts li{display:flex;gap:9px;font-size:14px;color:#cdd5e2}
+ul.pts li::before{content:"";flex:none;width:6px;height:6px;margin-top:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 10px var(--brand)}
+.frame{background:#0c1119cc;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 20px 50px #0008,inset 0 1px 0 #ffffff0d}
+.bar{display:flex;align-items:center;gap:6px;padding:10px 13px;border-bottom:1px solid var(--border);background:#ffffff05;font-size:12px;color:var(--muted);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%}
+.body{padding:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:9px;font-size:14px}
+.box{border:1px solid var(--border);border-radius:15px;padding:11px;background:var(--card)}
+.row{display:flex;align-items:center;gap:9px}
+.grow{flex:1;min-width:0}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm{font-size:12px;color:var(--muted)}
+.xs{font-size:11px;color:var(--muted)}
+.av{flex:none;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pill{flex:none;display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600}
+.em{background:var(--em-soft);color:var(--em)}.am{background:var(--am-soft);color:var(--am)}.sk{background:var(--sk-soft);color:var(--sk)}.vi{background:var(--vi-soft);color:var(--vi)}.ro{background:var(--ro-soft);color:var(--ro)}.br{background:var(--brand-soft);color:var(--brand)}.sl{background:#ffffff0d;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.btn{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:7px 13px;border:1px solid var(--border);background:#ffffff08;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.btn.p{background:linear-gradient(135deg,var(--brand),#5ee7d0);border-color:transparent;color:#06080d}
+.btn:active,.btn.tap{transform:scale(.95)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;margin-top:8px}
+.spec b{font-weight:600}
+.reply{display:none;margin-top:10px;border-radius:13px;background:var(--brand-soft);border:1px solid #2de2c433;padding:10px;font-size:13.5px}
+.reply.show{display:block;animation:up .4s both}
+.bub{display:flex}.bub>div{max-width:85%;border-radius:16px;padding:8px 11px;background:#ffffff0d}
+.bub.me{justify-content:flex-end}.bub.me>div{background:#2de2c42b}
+.meta{font-size:10px;color:var(--muted);text-align:right;margin-top:2px}
+.wait{color:var(--ro);font-size:11px;flex:none}
+.gate{border:1px solid #fbbf2455;background:var(--am-soft);border-radius:15px;padding:11px}
+.note{background:#ffffff08;border:1px solid var(--border);border-radius:13px;padding:10px;font-size:13px}
+.wave{display:flex;align-items:flex-end;gap:2px;height:16px}
+.wave i{width:3px;border-radius:2px;background:var(--vi);animation:w 1s ease-in-out infinite alternate}
+@keyframes w{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sent{display:none;color:var(--em);font-weight:600;font-size:13px;margin-top:8px}
+.meter{height:7px;border-radius:99px;background:#ffffff10;overflow:hidden}
+.meter>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.funnel{display:grid;gap:7px}
+.funnel .lvl{display:flex;align-items:center;gap:10px}
+.funnel .lvl .lbl{width:92px;font-size:12px;color:var(--muted)}
+.funnel .lvl .meter{flex:1;height:22px;border-radius:8px}
+.funnel .lvl .meter>i{border-radius:8px}
+.funnel .lvl b{width:56px;text-align:right;font-variant-numeric:tabular-nums}
+.cmp{width:100%;border-collapse:collapse;font-size:12.5px}
+.cmp th,.cmp td{padding:7px 6px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+.cmp th{font-size:11px;color:var(--muted);font-weight:600}
+.cmp tr.best td{background:#2de2c40f}
+.steps{display:grid;gap:0}
+.step{display:flex;gap:10px;position:relative;padding-bottom:12px}
+.step:last-child{padding-bottom:0}
+.step .b{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.step:not(:last-child)::after{content:"";position:absolute;left:12.5px;top:28px;bottom:2px;width:1px;background:var(--border)}
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cal div{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px;text-align:center}
+.cal .big{font-size:20px;font-weight:700}
+.gloss{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.term{position:relative;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 11px;min-height:118px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .2s}
+.term .ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px}
+.term .t{font-weight:700;font-size:14px;font-family:"Space Grotesk",Inter,sans-serif}
+.term .s{font-size:12px;color:var(--muted);margin-top:2px}
+.term .d{display:none;font-size:12px;color:#cdd5e2;margin-top:6px;animation:up .3s both}
+.term.open{border-color:#2de2c466}
+.term.open .d{display:block}
+.term .ref{position:absolute;top:10px;right:10px;font-size:10px;color:#64708a}
+.why{display:grid;gap:8px}
+.why .box{display:flex;gap:11px}
+.why .big{font-size:26px;font-weight:700;color:var(--brand);min-width:62px}
+footer{margin-top:30px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--border);font-size:12.5px;color:var(--muted)}
+footer a{color:var(--brand)}
+.cta{margin-top:26px;padding:18px;border-radius:20px;background:linear-gradient(135deg,#2de2c42a,#7c8cff2a);border:1px solid #2de2c440}
+.cta h2{margin-top:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover" id="top">
+  <div class="top"><div class="logo"><i>⚓</i>Pult · Marine</div><span class="tag">AI · DEMO</span></div>
+  <h1>Talk to <em>every shipowner</em>, every day.</h1>
+  <p class="lead">An AI Pult for marine insurers and brokers. Hull &amp; Machinery and P&amp;I: every owner, renewal, quote and claim on one phone screen. The agent prepares, you decide.</p>
+  <div class="pillars"><span><b>English</b> first</span><span><b>Mobile</b> first</span><span><b>AI</b> first</span></div>
+  <div class="stats">
+    <div class="stat"><div class="big">$10.5bn <small>+9.4%</small></div><div class="sm">ocean hull premiums written worldwide in 2025</div><div class="src">IUMI Stats Report 2026</div></div>
+    <div class="stat"><div class="big">~112,500</div><div class="sm">commercial vessels of 100 GT+, each one needs cover every year</div><div class="src">UNCTAD Review of Maritime Transport</div></div>
+    <div class="stat"><div class="big">~87%</div><div class="sm">of ocean-going tonnage entered with 12 International Group P&amp;I clubs</div><div class="src">International Group of P&amp;I Clubs</div></div>
+    <div class="stat"><div class="big">20 Feb</div><div class="sm">one renewal day for most P&amp;I clubs: the whole market moves at once</div><div class="src">IG clubs, policy year</div></div>
+  </div>
+  <p class="lead" style="margin-top:12px">The market is large and it is relationship-driven. Whoever stays in touch with owners all year wins the renewal. AI makes that touch possible at the scale of a fleet register.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="video.mp4" class="btn p" style="text-decoration:none">▶ Watch the 2-minute video</a><span class="demo">Demo: all vessels, owners, names and prices are fictional</span></div>
+  <nav class="toc">
+    <a href="#radar"><span class="num">01</span><span>Renewal and fleet radar</span></a>
+    <a href="#touch"><span class="num">02</span><span>Law of large numbers: a touch a day</span></a>
+    <a href="#feed"><span class="num">03</span><span>All messengers in one feed</span></a>
+    <a href="#agent"><span class="num">04</span><span>The agent drafts the submission</span></a>
+    <a href="#quotes"><span class="num">05</span><span>Quotes side by side</span></a>
+    <a href="#claims"><span class="num">06</span><span>Claims desk: from the first photo</span></a>
+    <a href="#gate"><span class="num">07</span><span>Nothing goes out without your “yes”</span></a>
+    <a href="#voice"><span class="num">08</span><span>Voice assistant and Siri</span></a>
+    <a href="#lang"><span class="num">09</span><span>The common language of marine insurance</span></a>
+  </nav>
+</header>
+
+<div class="chips" id="chips">
+  <a href="#radar">01 Radar</a><a href="#touch">02 Daily touch</a><a href="#feed">03 Feed</a><a href="#agent">04 Agent</a><a href="#quotes">05 Quotes</a><a href="#claims">06 Claims</a><a href="#gate">07 “Yes”</a><a href="#voice">08 Voice</a><a href="#lang">09 Language</a>
+</div>
+
+<!-- 01 -->
+<section class="f" id="radar">
+  <div class="kicker">01 · SALES</div>
+  <h2>Renewal and <em>fleet radar</em></h2>
+  <p class="lead">Every vessel by IMO number, its owner group, manager, club, hull insurer and renewal date. The radar shows who to call today and why.</p>
+  <ul class="pts">
+    <li>Renewals in the next 90 days, H&amp;M and P&amp;I, the closest on top</li>
+    <li>Signals: a vessel sold, a newbuilding delivered, a voyage into a listed war-risk area</li>
+    <li>Owner group behind the one-ship companies, so a fleet is one client</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Radar · renewals and signals</div>
+    <div class="body">
+      <div class="cal">
+        <div><div class="big">14</div><div class="xs">renew in 30 days</div></div>
+        <div><div class="big">37</div><div class="xs">in 90 days</div></div>
+        <div><div class="big" style="color:var(--am)">6</div><div class="xs">new signals</div></div>
+        <div><div class="big" style="color:var(--ro)">3</div><div class="xs">silent 7 days</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av ro">AS</span><div class="grow"><b>MV Aegean Star · Supramax</b><div class="sm trunc">IMO 9487213 · Kalliris Maritime group · 9 vessels</div></div><span class="pill ro">H&amp;M in 21 d</span></div>
+        <div class="spec"><span class="sm">Cover</span><b>H&amp;M + IV · renews 4 Dec</b><span class="sm">Insured value</span><b>$ 18.5m · deductible $ 150k</b><span class="sm">Manager</span><b>Kalliris Ship Management, Piraeus</b><span class="sm">Last touch</span><b>41 days ago, email</b></div>
+        <div class="btns"><button class="btn p" data-reply="r1">✨ Draft a message</button><button class="btn">Open fleet</button><button class="btn">Done</button></div>
+        <div class="reply" id="r1">“Good morning Nikos, Aegean Star’s hull renewal is on 4 December. Could you send this year’s fleet list and any changes to values? I’ll go to the lead market this week so you have terms with time to spare.”<div class="xs" style="margin-top:6px">Draft: sent only after your “yes”</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av am">NB</span><div class="grow"><b>Newbuilding delivered · MV Orion Bay</b><div class="sm trunc">IMO 9921045 · Halvorsen Bulk · signal from a fleet register</div></div><span class="pill am">signal</span></div>
+        <div style="margin-top:8px">Delivered from the yard last week. Builder’s risks end at delivery: hull and P&amp;I entry are needed now.</div>
+        <div class="btns"><button class="btn p" data-reply="r2">✨ Draft a message</button><button class="btn">Add to CRM</button></div>
+        <div class="reply" id="r2">“Congratulations on the delivery of Orion Bay! If the hull and P&amp;I placement isn’t closed yet, we can present options from two lead markets within 48 hours. Shall I send a short submission checklist?”<div class="xs" style="margin-top:6px">Draft: sent only after your “yes”</div></div>
+      </div>
+      <div class="box">
+        <div class="row"><span class="av sk">RS</span><div class="grow"><b>MV Cape Meridian · tanker</b><div class="sm trunc">IMO 9365112 · AIS: heading to Suez, then the Red Sea</div></div><span class="pill sk">war risk</span></div>
+        <div style="margin-top:8px">Next port is inside a listed area. The owner will need an additional war premium quote for the transit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="f" id="touch">
+  <div class="kicker">02 · SALES</div>
+  <h2>Law of large numbers: <em>a touch a day</em></h2>
+  <p class="lead">Sales is a numbers game. At 100 attempts the result is random; at 10,000 it becomes predictable. The Pult keeps a personal conversation going with every owner, every day, without a call-centre.</p>
+  <ul class="pts">
+    <li>A cadence of touches per owner: news, renewal reminder, market update, a call</li>
+    <li>Each message is personal: the agent knows the fleet, the club, the last talk</li>
+    <li>One “yes” approves a whole list; messages go one by one with pauses, in working hours</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Funnel · this month (illustration)</div>
+    <div class="body">
+      <div class="funnel">
+        <div class="lvl"><span class="lbl">Touches</span><span class="meter"><i style="width:100%"></i></span><b>10,000</b></div>
+        <div class="lvl"><span class="lbl">Replies</span><span class="meter"><i style="width:42%"></i></span><b>1,200</b></div>
+        <div class="lvl"><span class="lbl">Submissions</span><span class="meter"><i style="width:16%"></i></span><b>300</b></div>
+        <div class="lvl"><span class="lbl">Quotes</span><span class="meter"><i style="width:9%"></i></span><b>180</b></div>
+        <div class="lvl"><span class="lbl">Bound</span><span class="meter"><i style="width:4%"></i></span><b>100</b></div>
+      </div>
+      <div class="note sm">1% of 10,000 touches is about 100 placements. The numbers here are an illustration of the arithmetic, not a forecast: your own funnel appears after the first weeks.</div>
+      <div class="box">
+        <div class="row"><b class="grow">Today’s touches</b><span class="pill br">412 / 450</span></div>
+        <div class="meter" style="margin-top:8px"><i style="width:91%"></i></div>
+        <div class="xs" style="margin-top:6px">WhatsApp 188 · Email 141 · Telegram 52 · LinkedIn 31</div>
+      </div>
+      <div class="box">
+        <div class="sm" style="margin-bottom:6px">Cadence · new owner</div>
+        <div class="steps">
+          <div class="step"><span class="b em">✓</span><div class="grow"><b>Intro</b><div class="xs">who we are, which markets we place in</div></div></div>
+          <div class="step"><span class="b em">✓</span><div class="grow"><b>Market note</b><div class="xs">hull rates and capacity this quarter</div></div></div>
+          <div class="step"><span class="b br">3</span><div class="grow"><b>Renewal reminder</b><div class="xs">60 days before the date, with a checklist</div></div></div>
+          <div class="step"><span class="b sl">4</span><div class="grow"><b>Call in the calendar</b><div class="xs">15 minutes, the agent proposes a slot</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="f" id="feed">
+  <div class="kicker">03 · COMMUNICATION</div>
+  <h2>All messengers in <em>one feed</em></h2>
+  <p class="lead">WhatsApp, Telegram, WeChat and email in one feed. Owners, managers, masters and underwriters, each chat tagged by channel and client.</p>
+  <ul class="pts">
+    <li>Who waits for a reply and for how long, the longest on top</li>
+    <li>Open an owner and see every conversation across channels</li>
+    <li>Photos of documents become text, voice notes become transcripts</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;💬 Feed · all channels</div>
+    <div class="body">
+      <div class="row" style="gap:6px;overflow-x:auto;scrollbar-width:none"><span class="pill" style="background:var(--text);color:#06080d">All</span><span class="pill sl">WhatsApp</span><span class="pill sl">Telegram</span><span class="pill sl">WeChat</span><span class="pill sl">Email</span></div>
+      <div class="box row"><span class="av sk">KM</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Kalliris Maritime</b><span class="pill sk">Email</span></div><div class="xs trunc">Fleet list 2027 and revised hull values attached</div></div><span class="wait">waiting 2 h</span></div>
+      <div class="box row"><span class="av em">CP</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Capt. Petrov, MV Baltic Dawn</b><span class="pill em">WhatsApp</span></div><div class="xs trunc">📷 Photo → “Contact damage to fender, berth 7”</div></div><span class="wait">waiting 25 min</span></div>
+      <div class="box row"><span class="av vi">LU</span><div class="grow"><div class="row" style="gap:5px"><b class="trunc">Lead underwriter, hull</b><span class="pill vi">Telegram</span></div><div class="xs trunc">🎙 0:38 → “Can quote 15% line, need 5-year loss record”</div></div><span class="wait">waiting 1 day</span></div>
+      <div class="box">
+        <div class="sm" style="margin-bottom:8px"><b style="color:var(--text)">Capt. Petrov</b> · WhatsApp</div>
+        <div style="display:grid;gap:7px">
+          <div class="bub"><div>Touched the fender while berthing, minor damage to the berth, no injuries.<div class="meta">06:41</div></div></div>
+          <div class="bub"><div>📷 [Photo: berth 7 fender, cracked rubber element, hull plating scraped above waterline]<div class="meta">photo as text</div></div></div>
+          <div class="bub me"><div>Thank you, Captain. Notifying the club now; a surveyor will attend today.<div class="meta">06:50 · ✓✓</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="f" id="agent">
+  <div class="kicker">04 · AI AGENT</div>
+  <h2>The agent drafts <em>the submission</em></h2>
+  <p class="lead">Every owner has their own AI agent that knows the whole history: fleet, values, losses, past terms and every conversation.</p>
+  <ul class="pts">
+    <li>Builds the renewal submission from the fleet list and the loss record</li>
+    <li>Finds what is missing before the underwriter asks</li>
+    <li>Offers 1–3 replies and explains the purpose of each</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Agent · Kalliris Maritime, H&amp;M renewal</div>
+    <div class="body">
+      <div class="note sm">The agent read: the owner card, 9 vessels, 5-year loss record, last year’s slip and 46 emails</div>
+      <div class="box">
+        <b>Submission · ready 86%</b>
+        <div class="meter" style="margin:8px 0"><i style="width:86%"></i></div>
+        <div class="spec"><span class="sm">✓</span><span>Fleet list, IMO, flag, class, built</span><span class="sm">✓</span><span>Hull and IV values, deductibles</span><span class="sm">✓</span><span>Loss record 2022–2026, 3 claims</span><span class="sm" style="color:var(--am)">!</span><span style="color:var(--am)">Class survey status for 2 vessels missing</span><span class="sm" style="color:var(--am)">!</span><span style="color:var(--am)">Trading area for Cape Meridian: Red Sea?</span></div>
+      </div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill br">1</span><b>Ask for the gaps</b></div><div style="margin-top:6px">“Thank you, Nikos. Before I go to market: could you send the latest class status for Aegean Star and Kalliris Sun, and confirm whether Cape Meridian will trade in the Red Sea?”</div><div class="xs" style="margin-top:4px">why: the lead underwriter will ask the same; this saves a round</div></div>
+      <div class="box"><div class="row" style="gap:6px"><span class="pill br">2</span><b>Go to market now</b></div><div style="margin-top:6px">“Submission goes to two lead markets today; the class status can follow. Indications by Friday.”</div><div class="xs" style="margin-top:4px">why: the renewal is in 21 days, time matters more</div></div>
+      <div class="btns" style="margin-top:0"><button class="btn p">Use option 1</button><button class="btn">Redo with a comment</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="f" id="quotes">
+  <div class="kicker">05 · PLACEMENT</div>
+  <h2>Quotes <em>side by side</em></h2>
+  <p class="lead">Lead and following markets, rates, deductibles and wording in one table. The agent reads each quote and points to what differs.</p>
+  <ul class="pts">
+    <li>Rate, deductible, line size and clauses (ITC Hulls, IHC 2003, Nordic Plan)</li>
+    <li>Differences in exclusions and conditions are highlighted</li>
+    <li>The comparison for the owner is one tap: a PDF or a message</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Quotes · Aegean Star, H&amp;M 12 months</div>
+    <div class="body">
+      <table class="cmp">
+        <tr><th>Market</th><th>Rate</th><th>Deductible</th><th>Line</th><th>Wording</th></tr>
+        <tr class="best"><td><b>Lead A</b><div class="xs">London</div></td><td>0.42%</td><td>$150k</td><td>40%</td><td>IHC 2003</td></tr>
+        <tr><td><b>Market B</b><div class="xs">Oslo</div></td><td>0.39%</td><td>$250k</td><td>30%</td><td>Nordic Plan</td></tr>
+        <tr><td><b>Market C</b><div class="xs">Singapore</div></td><td>0.45%</td><td>$150k</td><td>30%</td><td>ITC Hulls</td></tr>
+      </table>
+      <div class="note"><b>Agent:</b> Market B is cheaper on rate, but the deductible is $100k higher. With 3 machinery claims in 5 years, the owner would have paid about $210k more under B. Lead A is the better total cost.</div>
+      <div class="btns" style="margin-top:0"><button class="btn p">Send comparison to owner</button><button class="btn">PDF</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="f" id="claims">
+  <div class="kicker">06 · SERVICE</div>
+  <h2>Claims desk: <em>from the first photo</em></h2>
+  <p class="lead">Service decides the next renewal. A master’s photo in WhatsApp becomes a claim file with a checklist and deadlines.</p>
+  <ul class="pts">
+    <li>First notice of loss from any chat, with photos read as text</li>
+    <li>Checklist: notify the club, appoint a surveyor, preserve evidence, sue and labour</li>
+    <li>The owner sees the status without asking</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Claim · MV Baltic Dawn, fender contact</div>
+    <div class="body">
+      <div class="box">
+        <div class="row"><b class="grow">Fixed and floating object · P&amp;I</b><span class="pill am">in progress</span></div>
+        <div class="xs" style="margin-top:3px">Opened 06:52 from WhatsApp · photos 3 · statement 1</div>
+      </div>
+      <div class="box steps">
+        <div class="step"><span class="b em">✓</span><div class="grow"><b>Notice to club</b><div class="xs">sent 07:05, reference received</div></div></div>
+        <div class="step"><span class="b em">✓</span><div class="grow"><b>Surveyor appointed</b><div class="xs">attends today 14:00</div></div></div>
+        <div class="step"><span class="b br">3</span><div class="grow"><b>Master’s statement and log extract</b><div class="xs">the agent asked the master, waiting</div></div></div>
+        <div class="step"><span class="b sl">4</span><div class="grow"><b>Port claim and hull damage split</b><div class="xs">berth to P&amp;I, own plating to H&amp;M, deductible applies</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="f" id="gate">
+  <div class="kicker">07 · CONTROL</div>
+  <h2>Nothing goes out <em>without your “yes”</em></h2>
+  <p class="lead">The agent suggests, you send. Exactly the approved text goes out, and only once.</p>
+  <ul class="pts">
+    <li>Limits per chat and account, pauses between messages</li>
+    <li>Approve from your phone or from Telegram by replying “1”, “2” or “3”</li>
+    <li>Your tone, your rules: the agent follows the house style</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;Send gate</div>
+    <div class="body">
+      <div class="gate">
+        <div class="sm" style="color:var(--am);font-weight:600">Awaiting approval · Email · Kalliris Maritime</div>
+        <div style="margin-top:6px">“Thank you, Nikos. Before I go to market: could you send the latest class status for Aegean Star and Kalliris Sun…”</div>
+        <div class="btns"><button class="btn p" id="send">Yes, send</button><button class="btn">Edit</button><button class="btn">No</button></div>
+        <div class="sent" id="sent">✓ Sent after your “yes”</div>
+      </div>
+      <div class="box row"><span>🛡️</span><span>The agent never sends on its own</span></div>
+      <div class="box row"><span>🔒</span><span>Exactly the text you approved goes out</span></div>
+      <div class="box row"><span>📊</span><span>Every touch is logged to the owner’s card and the funnel</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section class="f" id="voice">
+  <div class="kicker">08 · VOICE</div>
+  <h2>Voice assistant <em>and Siri</em></h2>
+  <p class="lead">Run the day by voice: in the car, between meetings, at a conference.</p>
+  <ul class="pts">
+    <li>“What’s urgent?” covers renewals, quotes, claims and chats</li>
+    <li>Go through incoming messages by voice and approve replies</li>
+    <li>“Hey Siri, Pult” works on a locked iPhone</li>
+  </ul>
+  <div class="frame">
+    <div class="bar"><span class="dot" style="background:#fb7185"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span>&nbsp;🎙 Voice assistant</div>
+    <div class="body">
+      <div class="bub me"><div>Pult, what’s urgent today?</div></div>
+      <div class="bub"><div>Three things. Aegean Star’s hull renews in 21 days and the submission is 86% ready. Captain Petrov reported a fender contact; the surveyor attends at two. And the lead underwriter wants the loss record.</div></div>
+      <div class="bub me"><div>Send the loss record to the underwriter.</div></div>
+      <div class="bub"><div>Prepared: the 5-year record for Kalliris Maritime, PDF, with a short note. Send?</div></div>
+      <div class="bub me"><div>Yes.</div></div>
+      <div class="bub"><div>Sent. Next: the Orion Bay delivery.</div></div>
+      <div class="row" style="background:var(--vi-soft);color:var(--vi);border-radius:999px;padding:8px 14px;font-size:12.5px">
+        <span class="wave"><i style="height:5px"></i><i style="height:10px;animation-delay:.1s"></i><i style="height:15px;animation-delay:.2s"></i><i style="height:8px;animation-delay:.3s"></i><i style="height:13px;animation-delay:.4s"></i></span>
+        <span>Listening… “Hey Siri, Pult”</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 -->
+<section class="f" id="lang">
+  <div class="kicker">09 · KNOWLEDGE</div>
+  <h2>The common language <em>of marine insurance</em></h2>
+  <p class="lead">Like aviation, marine insurance has a language understood in every port: few words, clear symbols. The agent speaks it, so your team and your clients do too. Tap a term.</p>
+  <div class="gloss" id="gloss">
+    <div class="term"><span class="ref">MIA 1906</span><div class="ic br">🚢</div><div class="t">H&amp;M</div><div class="s">Hull &amp; Machinery</div><div class="d">Cover for the ship itself: hull, engine, equipment, against physical damage and total loss.</div></div>
+    <div class="term"><span class="ref">IG clubs</span><div class="ic vi">🤝</div><div class="t">P&amp;I</div><div class="s">Protection &amp; Indemnity</div><div class="d">Liability to third parties: crew, cargo, pollution, ports, wreck removal. Mostly mutual clubs.</div></div>
+    <div class="term"><span class="ref">Ch. 4</span><div class="ic am">⚖️</div><div class="t">General Average</div><div class="s">shared sacrifice</div><div class="d">A loss made on purpose to save ship and cargo is shared by all interests (York-Antwerp Rules).</div></div>
+    <div class="term"><span class="ref">Ch. 4</span><div class="ic sk">🔧</div><div class="t">Particular Average</div><div class="s">partial loss</div><div class="d">Partial damage that falls on one interest only, paid by its own insurer.</div></div>
+    <div class="term"><span class="ref">Ch. 4</span><div class="ic ro">⚓</div><div class="t">TLO</div><div class="s">Total Loss Only</div><div class="d">Pays only if the ship is lost or a constructive total loss; often for older tonnage.</div></div>
+    <div class="term"><span class="ref">Ch. 2</span><div class="ic em">📝</div><div class="t">Slip</div><div class="s">the placing document</div><div class="d">The broker’s summary of the risk; underwriters write their lines on it, lead first, then followers.</div></div>
+    <div class="term"><span class="ref">Ch. 1</span><div class="ic br">🎯</div><div class="t">Lead / Follow</div><div class="s">subscription market</div><div class="d">The lead sets the terms; followers take shares (lines) on the same terms.</div></div>
+    <div class="term"><span class="ref">Ch. 4</span><div class="ic sk">💲</div><div class="t">Deductible</div><div class="s">the owner’s share</div><div class="d">The part of each claim the owner pays first. Higher deductible, lower premium.</div></div>
+    <div class="term"><span class="ref">Ch. 10</span><div class="ic am">💰</div><div class="t">IV</div><div class="s">Increased Value</div><div class="d">Extra cover above the hull value, so a total loss pays out the full value of the ship.</div></div>
+    <div class="term"><span class="ref">Ch. 10</span><div class="ic ro">🛡️</div><div class="t">War Risks</div><div class="s">listed areas</div><div class="d">Excluded from hull cover; written separately, with additional premium for listed areas.</div></div>
+    <div class="term"><span class="ref">Ch. 5</span><div class="ic em">🚨</div><div class="t">Sue &amp; Labour</div><div class="s">act as if uninsured</div><div class="d">The owner must act to reduce a loss; reasonable costs are paid by insurers on top.</div></div>
+    <div class="term"><span class="ref">Ch. 5</span><div class="ic vi">🛟</div><div class="t">Salvage</div><div class="s">reward for saving</div><div class="d">Payment to those who save property at sea; recoverable from insurers.</div></div>
+    <div class="term"><span class="ref">Ch. 6</span><div class="ic sk">💥</div><div class="t">Collision · ¾ RDC</div><div class="s">running down clause</div><div class="d">Hull insurers pay three-fourths of collision liability; P&amp;I takes the other quarter.</div></div>
+    <div class="term"><span class="ref">Ch. 3</span><div class="ic br">🤲</div><div class="t">Utmost Good Faith</div><div class="s">duty of fair presentation</div><div class="d">Both sides disclose what matters to the risk. The base of every placement.</div></div>
+    <div class="term"><span class="ref">Ch. 5</span><div class="ic am">🔁</div><div class="t">Subrogation</div><div class="s">insurer steps in</div><div class="d">After paying, the insurer takes the owner’s rights to recover from the party at fault.</div></div>
+    <div class="term"><span class="ref">IG clubs</span><div class="ic vi">📅</div><div class="t">Certificate of Entry</div><div class="s">P&amp;I membership · 20 Feb</div><div class="d">Proof that the ship is entered in a club; most clubs renew on 20 February.</div></div>
+  </div>
+  <div class="note sm" style="margin-top:9px">Based on the Institute of Chartered Shipbrokers course “Marine Insurance”: the Marine Insurance Act 1906, Institute clauses, York-Antwerp Rules.</div>
+</section>
+
+<section class="cta" id="end">
+  <div class="kicker">THE POINT</div>
+  <h2>Business helps business. <em>AI helps both.</em></h2>
+  <p class="lead" style="color:#cdd5e2">Marine insurance is won by those who stay in touch. The Pult lets one broker keep a personal conversation going with every shipowner in their register, every day, while every message still goes out with a human “yes”.</p>
+  <div class="why">
+    <div class="box"><span class="big">1</span><span>screen on your phone for owners, renewals, quotes and claims</span></div>
+    <div class="box"><span class="big">0</span><span>messages sent without your approval</span></div>
+    <div class="box"><span class="big">24/7</span><span>the agent reads, sorts and prepares while you sleep</span></div>
+  </div>
+</section>
+
+<footer>
+  <b style="color:var(--text)">This is a demo.</b> All vessels, owners, names, prices and messages are made up. Market figures come from IUMI Stats Report 2026, UNCTAD and the International Group of P&amp;I Clubs. The Pult is set up around your own register, channels and markets.
+</footer>
+
+</div>
+<script>
+document.querySelectorAll("[data-reply]").forEach(function(b){b.addEventListener("click",function(){var r=document.getElementById(b.dataset.reply);r.classList.add("show");b.textContent="✨ Draft ready";});});
+document.getElementById("send").addEventListener("click",function(){document.getElementById("sent").style.display="block";this.disabled=true;this.style.opacity=.5;});
+document.querySelectorAll(".term").forEach(function(t){t.addEventListener("click",function(){t.classList.toggle("open");});});
+var chips=[].slice.call(document.querySelectorAll("#chips a"));
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){chips.forEach(function(c){var on=c.getAttribute("href")==="#"+e.target.id;c.classList.toggle("on",on);if(on){var box=c.parentNode;box.scrollTo({left:c.offsetLeft-box.clientWidth/2+c.clientWidth/2,behavior:"smooth"});}});}});},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.f").forEach(function(s){io.observe(s);});
+</script>
+</body>
+</html>
