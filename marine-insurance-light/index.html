@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Pult · Marine</title>
+<meta name="description" content="Demo: your whole marine insurance book on one calm screen. The assistant prepares, you say yes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--sec:#6e6e73;--ter:#aeaeb2;--line:#e5e5ea;
+  --blue:#0071e3;--blue-soft:#e8f1fc;--green:#34c759;--green-soft:#e9f8ee;--orange:#ff9500;--orange-soft:#fff4e5;--red:#ff3b30;--red-soft:#ffeceb;--indigo:#5856d6;--indigo-soft:#efeefc;
+  --r:22px;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 24px rgba(0,0,0,.05);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:17px/1.47 var(--font);-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+.app{max-width:440px;margin:0 auto;min-height:100vh;padding:0 20px calc(120px + env(safe-area-inset-bottom))}
+
+/* screens */
+.screen{display:none;animation:fade .35s ease both}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{padding:calc(28px + env(safe-area-inset-top)) 0 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.date{font-size:13px;font-weight:600;color:var(--sec);text-transform:uppercase;letter-spacing:.04em}
+h1{font-size:34px;line-height:1.1;font-weight:700;letter-spacing:-.025em;margin:4px 0 0}
+.sub{color:var(--sec);margin:6px 0 0;font-size:17px}
+.round{width:44px;height:44px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;flex:none;transition:transform .15s}
+.round:active{transform:scale(.92)}
+.round svg{width:22px;height:22px;color:var(--blue)}
+.label{font-size:13px;font-weight:600;color:var(--sec);text-transform:uppercase;letter-spacing:.04em;margin:40px 4px 12px}
+
+/* cards */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
+.stack{display:grid;gap:14px}
+.task{transition:opacity .4s,transform .4s}
+.task.gone{opacity:0;transform:scale(.96)}
+.task .top{display:flex;gap:14px;align-items:flex-start}
+.ico{flex:none;width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.ico svg{width:22px;height:22px}
+.ico.o{background:var(--orange-soft);color:var(--orange)}.ico.b{background:var(--blue-soft);color:var(--blue)}.ico.g{background:var(--green-soft);color:var(--green)}.ico.r{background:var(--red-soft);color:var(--red)}.ico.i{background:var(--indigo-soft);color:var(--indigo)}
+.t{font-weight:600;font-size:17px;line-height:1.3}
+.s{color:var(--sec);font-size:15px;margin-top:2px}
+.why{margin:14px 0 18px;font-size:16px;color:#3a3a3c}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border-radius:14px;background:var(--blue);color:#fff;font-weight:600;font-size:17px;transition:transform .15s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn.soft{background:var(--blue-soft);color:var(--blue)}
+.btn.done{background:var(--green)}
+.link{color:var(--blue);font-weight:500;font-size:16px;padding:12px 0;display:block;width:100%;text-align:center}
+
+.alldone{text-align:center;padding:44px 22px}
+.alldone .big-check{width:72px;height:72px;border-radius:50%;background:var(--green);color:#fff;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+.alldone .big-check svg{width:36px;height:36px}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+
+.hero-num{font-size:52px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.hero-row{display:flex;justify-content:space-between;align-items:center}
+.chev{color:var(--ter);width:20px;height:20px;flex:none}
+
+/* lists */
+.list{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.item{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;text-align:left;position:relative;transition:background .15s}
+.item:active{background:#f2f2f7}
+.item+.item::before{content:"";position:absolute;top:0;left:76px;right:0;height:1px;background:var(--line)}
+.av{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;color:#fff}
+.grow{flex:1;min-width:0}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{flex:none;font-size:14px;font-weight:500}
+.tag.o{color:var(--orange)}.tag.g{color:var(--sec)}
+.time{font-size:14px;color:var(--sec);flex:none}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--blue);flex:none}
+.ch{font-size:13px;color:var(--sec)}
+
+.search{display:flex;align-items:center;gap:8px;background:#e9e9ee;border-radius:12px;height:40px;padding:0 12px;margin:18px 0 0}
+.search svg{width:18px;height:18px;color:var(--sec)}
+.search input{flex:1;border:0;background:none;outline:none;font:inherit;font-size:17px;color:var(--text)}
+.seg{display:flex;background:#e9e9ee;border-radius:10px;padding:2px;margin:18px 0 0}
+.seg button{flex:1;height:32px;border-radius:8px;font-size:14px;font-weight:500;color:var(--text);transition:background .2s}
+.seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* progress */
+.bar{height:6px;border-radius:99px;background:#ececf0;overflow:hidden;margin:16px 0 4px}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--blue);transition:width .6s ease}
+.steps{margin-top:8px}
+.step{display:flex;gap:14px;padding:14px 0;align-items:flex-start}
+.step+.step{border-top:1px solid var(--line)}
+.sb{flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;background:#f2f2f7;color:var(--sec);transition:background .3s,color .3s}
+.sb.ok{background:var(--green);color:#fff}.sb.now{background:var(--blue);color:#fff}
+.sb svg{width:15px;height:15px}
+
+/* glossary word */
+.w{border-bottom:1.5px dotted var(--ter);cursor:pointer}
+
+/* tab bar */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(249,249,251,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-top:1px solid rgba(0,0,0,.08);padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+.tabs .in{max-width:440px;margin:0 auto;display:flex}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--ter);padding:2px 0;position:relative}
+.tabs button svg{width:26px;height:26px}
+.tabs button.on{color:var(--blue)}
+.badge{position:absolute;top:-2px;left:calc(50% + 6px);min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 5px}
+
+/* sheet */
+.veil{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .3s}
+.veil.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;max-width:440px;margin:0 auto;max-height:92vh;overflow-y:auto;background:var(--bg);border-radius:28px 28px 0 0;padding:10px 20px calc(28px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.9,.25,1);overscroll-behavior:contain}
+.sheet.on{transform:none}
+.grab{width:38px;height:5px;border-radius:3px;background:#d1d1d6;margin:0 auto 14px}
+.sh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sh-top .x{width:32px;height:32px;border-radius:50%;background:#e9e9ee;display:flex;align-items:center;justify-content:center;color:var(--sec)}
+.sh-top .x svg{width:14px;height:14px}
+.sheet h2{font-size:28px;line-height:1.15;font-weight:700;letter-spacing:-.02em;margin:6px 0 4px}
+.draft{background:var(--card);border-radius:18px;padding:18px;font-size:17px;line-height:1.5;margin:20px 0 10px;outline:none;box-shadow:var(--shadow)}
+.draft[contenteditable="true"]{box-shadow:0 0 0 2px var(--blue)}
+.fine{font-size:14px;color:var(--sec);text-align:center;margin:4px 0 22px}
+.row2{display:grid;grid-template-columns:1fr;gap:10px}
+.facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:22px 0 0}
+.fact{background:var(--card);border-radius:16px;padding:14px 12px;box-shadow:var(--shadow)}
+.fact b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.fact span{font-size:13px;color:var(--sec)}
+.offer{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.offer+.offer{border-top:1px solid var(--line)}
+.offer .price{font-weight:600;font-size:17px;text-align:right}
+.pick{font-size:12px;font-weight:600;color:var(--green);background:var(--green-soft);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+.note{background:var(--indigo-soft);border-radius:18px;padding:16px 18px;font-size:16px;margin:14px 0 22px;color:#2c2b6b}
+.note b{color:var(--indigo)}
+.bubs{display:grid;gap:8px;margin:20px 0}
+.bub{max-width:80%;padding:10px 14px;border-radius:20px;font-size:16px;line-height:1.4;background:#e9e9eb;justify-self:start;animation:fade .3s both}
+.bub.me{background:var(--blue);color:#fff;justify-self:end}
+.bub.photo{background:#fff;box-shadow:var(--shadow);color:var(--sec);font-size:15px}
+.suggest{background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:12px}
+.suggest .k{font-size:13px;font-weight:600;color:var(--indigo);margin-bottom:4px}
+.fun{display:grid;gap:12px;margin:22px 0}
+.fun .l{display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px}
+.fun .l b{font-weight:600}
+.fun .m{height:10px;border-radius:99px;background:#ececf0;overflow:hidden}
+.fun .m i{display:block;height:100%;border-radius:99px;background:var(--blue)}
+.wave{display:flex;justify-content:center;align-items:center;gap:5px;height:60px;margin:22px 0 8px}
+.wave i{width:5px;border-radius:3px;background:var(--blue);animation:wv 1s ease-in-out infinite alternate}
+@keyframes wv{from{height:8px}to{height:44px}}
+
+/* welcome */
+.welcome{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px calc(40px + env(safe-area-inset-bottom));transition:opacity .5s,transform .5s}
+.welcome.off{opacity:0;transform:scale(1.04);pointer-events:none}
+.welcome .mark{width:84px;height:84px;border-radius:22px;background:linear-gradient(160deg,#2a8cff,#0059c9);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 40px rgba(0,113,227,.3);margin-bottom:32px}
+.welcome .mark svg{width:44px;height:44px;color:#fff}
+.welcome h1{font-size:40px;max-width:360px}
+.welcome p{color:var(--sec);font-size:19px;max-width:340px;margin:16px auto 44px}
+.welcome .btn{max-width:320px}
+.welcome .tiny{font-size:13px;color:var(--ter);margin-top:28px}
+.demo-cap{display:inline-block;font-size:12px;font-weight:600;color:var(--sec);background:#ececf0;border-radius:99px;padding:3px 10px;vertical-align:4px;margin-left:8px;letter-spacing:0}
+</style>
+</head>
+<body>
+
+<div class="welcome" id="welcome">
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v14M5 12H3a9 9 0 0 0 18 0h-2M8 10h8"/></svg></div>
+  <h1>Your clients. One calm screen.</h1>
+  <p>An assistant for marine insurance. It prepares every message. You just say yes.</p>
+  <button class="btn" id="start">Try it</button>
+  <a class="link" href="../marine-insurance/video.mp4">Watch the 2-minute video</a>
+  <div class="tiny">Demo. Ships, people and prices are made up.</div>
+</div>
+
+<div class="app">
+
+  <!-- TODAY -->
+  <section class="screen on" id="s-today">
+    <div class="head">
+      <div><div class="date" id="today-date">Wednesday</div><h1>Good morning</h1></div>
+      <button class="round" data-open="voice" aria-label="Ask by voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+    </div>
+    <p class="sub" id="today-sub">3 things need you today.</p>
+
+    <div class="stack" id="tasks" style="margin-top:24px"></div>
+
+    <div class="label">While you slept</div>
+    <button class="card" data-open="how" style="width:100%;text-align:left">
+      <div class="hero-row">
+        <div>
+          <div class="hero-num">412</div>
+          <div class="s" style="margin-top:8px;color:var(--text);font-size:17px">personal notes sent to owners</div>
+          <div class="s">18 replied. 3 asked for an offer.</div>
+        </div>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+      </div>
+    </button>
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="screen" id="s-clients">
+    <div class="head"><div><h1>Clients</h1></div></div>
+    <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Search" autocomplete="off"></div>
+    <div class="label">Cover ends soon</div>
+    <div class="list" id="soon"></div>
+    <div class="label">Everyone else</div>
+    <div class="list" id="rest"></div>
+  </section>
+
+  <!-- CHATS -->
+  <section class="screen" id="s-chats">
+    <div class="head"><div><h1>Messages</h1></div></div>
+    <p class="sub">WhatsApp, email and Telegram, together.</p>
+    <div class="seg" id="seg"><button class="on" data-f="all">All</button><button data-f="WhatsApp">WhatsApp</button><button data-f="Email">Email</button><button data-f="Telegram">Telegram</button></div>
+    <div class="list" id="chats" style="margin-top:20px"></div>
+  </section>
+
+  <!-- CLAIMS -->
+  <section class="screen" id="s-claims">
+    <div class="head"><div><h1>Claims</h1></div></div>
+    <p class="sub">When something happens at sea.</p>
+    <div id="claims" style="margin-top:24px"></div>
+    <div class="label">This year</div>
+    <div class="list">
+      <div class="item"><div class="ico g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div><div class="grow"><div class="t">7 claims closed</div><div class="s">Owners kept in the loop, without asking</div></div></div>
+    </div>
+  </section>
+
+</div>
+
+<nav class="tabs"><div class="in">
+  <button class="on" data-tab="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Today<span class="badge" id="badge">3</span></button>
+  <button data-tab="clients"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5A6.5 6.5 0 0 1 21.5 20"/></svg>Clients</button>
+  <button data-tab="chats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Messages</button>
+  <button data-tab="claims"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg>Claims</button>
+</div></nav>
+
+<div class="veil" id="veil"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+
+<script>
+var I = {
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  ship:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l2 4h14l2-4H3zM6 16V9h12v7M10 9V5h4v4"/></svg>',
+  camera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  chev:'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>'
+};
+var COLORS = ["#5e5ce6","#0a84ff","#30b0c7","#ff9f0a","#bf5af2","#34c759","#ff375f"];
+
+var TERMS = {
+  "hull": ["Hull cover", "Insurance for the ship itself: the body, the engine, the equipment. If the ship is damaged or lost, this pays."],
+  "pi": ["P&I", "Protection and Indemnity. Pays when the ship harms others: the crew, the cargo, a port, the sea. Most owners get it from a mutual club."],
+  "deductible": ["Deductible", "The part of every claim the owner pays first. A bigger deductible makes the yearly price lower, but each accident costs the owner more."],
+  "renewal": ["Renewal", "Cover lasts one year. Before it ends, the owner needs new offers. Whoever is in touch at that moment usually wins the client."],
+  "value": ["Ship value", "What the ship is insured for. The yearly price is a small percent of it."]
+};
+
+var TASKS = [
+  { id:"t1", ic:"clock", tone:"o", title:"Aegean Star: cover ends in 21 days", sub:"Kalliris Maritime · 9 ships",
+    why:'Ask Nikos for this year’s <span class="w" data-term="value">ship values</span>, so offers arrive in time.',
+    act:"Write to Nikos", kind:"draft", to:"Nikos Kalliris", ch:"Email",
+    text:"Good morning Nikos. Aegean Star’s cover ends on 4 December. Could you send this year’s fleet list and any changes in values? I’ll go to the markets this week, so you have offers with time to spare." },
+  { id:"t2", ic:"ship", tone:"b", title:"A new ship has no cover", sub:"Orion Bay · Halvorsen Bulk",
+    why:"It left the shipyard last week. The yard’s insurance has ended, so it needs cover now.",
+    act:"Offer cover", kind:"draft", to:"Lars Halvorsen", ch:"WhatsApp",
+    text:"Congratulations on Orion Bay, Lars! If the ship’s insurance isn’t arranged yet, I can bring you options from two leading markets within 48 hours. Shall I send a short list of what I need?" },
+  { id:"t3", ic:"camera", tone:"r", title:"Captain Petrov sent a photo", sub:"Baltic Dawn · WhatsApp, 25 min ago",
+    why:"The ship touched the berth while docking. Small damage, nobody hurt.",
+    act:"Start a claim", kind:"claim" }
+];
+
+var CLIENTS = [
+  { n:"Kalliris Maritime", p:"Nikos Kalliris", city:"Piraeus", ships:9, days:21, ends:"4 Dec", val:"$18.5m", last:"41 days", offers:true },
+  { n:"Halvorsen Bulk", p:"Lars Halvorsen", city:"Oslo", ships:4, days:0, ends:"No cover", val:"$31m", last:"3 days" },
+  { n:"Meridian Tankers", p:"Ayesha Rahman", city:"Dubai", ships:6, days:38, ends:"26 Dec", val:"$42m", last:"12 days" },
+  { n:"Baltic Line", p:"Capt. Ivan Petrov", city:"Riga", ships:3, days:74, ends:"31 Jan", val:"$9.2m", last:"today" },
+  { n:"Sun Ocean Shipping", p:"Wei Chen", city:"Singapore", ships:12, days:140, ends:"7 Apr", val:"$96m", last:"5 days" },
+  { n:"Atlas Reefers", p:"Marco Ferri", city:"Genoa", ships:5, days:201, ends:"7 Jun", val:"$27m", last:"9 days" },
+  { n:"Nordfjord Ferries", p:"Ingrid Solberg", city:"Bergen", ships:2, days:260, ends:"5 Aug", val:"$14m", last:"20 days" }
+];
+
+var CHATS = [
+  { n:"Nikos Kalliris", ch:"Email", m:"Fleet list 2027 and new values attached", t:"9:12", u:true,
+    msgs:[["Good morning. Fleet list for 2027 attached, two ships have new values.",0]],
+    sug:"Thank you, Nikos. Got it. I’ll send the first offers by Friday." },
+  { n:"Capt. Ivan Petrov", ch:"WhatsApp", m:"Photo: damage at berth 7", t:"6:41", u:true,
+    msgs:[["Touched the fender while docking. Small damage to the berth, nobody hurt.",0],["📷 Photo, read by the assistant: berth 7, cracked rubber fender, paint scraped on the hull above the water.",2]],
+    sug:"Thank you, Captain. I’m telling the insurer now, an inspector will come today." },
+  { n:"Hull underwriter, London", ch:"Telegram", m:"Voice 0:38: can offer 40%, need 5-year history", t:"Yesterday", u:false,
+    msgs:[["🎙 Voice message, as text: “We can take 40 percent of Aegean Star, please send the claims history for five years.”",0]],
+    sug:"Sending the five-year history today. Thank you." },
+  { n:"Ayesha Rahman", ch:"WhatsApp", m:"Thanks, see you in Dubai next week", t:"Mon", u:false,
+    msgs:[["Thanks, see you in Dubai next week.",0]],
+    sug:"Looking forward to it, Ayesha. Tuesday 11:00 still works?" },
+  { n:"Wei Chen", ch:"Email", m:"Can you compare two P&I clubs for us?", t:"Sun", u:false,
+    msgs:[["Can you compare two P&I clubs for us before April?",0]],
+    sug:"Of course, Wei. I’ll send a one-page comparison this week." }
+];
+
+var done = {};
+var claimStarted = false;
+
+function $(s){return document.querySelector(s);}
+function av(name,i){var ini=name.replace(/^Capt\. /,"").split(/[ ,]+/).filter(function(w){return /^[A-Z]/.test(w);}).map(function(w){return w[0];}).join("").slice(0,2);return '<span class="av" style="background:'+COLORS[i%COLORS.length]+'">'+ini+'</span>';}
+
+/* date */
+(function(){var d=new Date();$("#today-date").textContent=d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});var h=d.getHours();document.querySelector("#s-today h1").textContent=h<12?"Good morning":h<18?"Good afternoon":"Good evening";})();
+
+/* today */
+function renderToday(){
+  var left = TASKS.filter(function(t){return !done[t.id];});
+  var n = left.length;
+  $("#today-sub").textContent = n===0 ? "Nothing else needs you today." : n===1 ? "1 thing needs you today." : n+" things need you today.";
+  var b=$("#badge"); b.textContent=n; b.style.display=n?"flex":"none";
+  if(!n){
+    $("#tasks").innerHTML='<div class="card alldone"><div class="big-check">'+I.check+'</div><div class="t" style="font-size:22px">All done</div><div class="s" style="margin-top:6px">Three taps, three clients looked after.<br>The assistant keeps watch for the rest.</div></div>';
+    return;
+  }
+  $("#tasks").innerHTML = left.map(function(t){
+    return '<div class="card task" id="'+t.id+'"><div class="top"><div class="ico '+t.tone+'">'+I[t.ic]+'</div><div class="grow"><div class="t">'+t.title+'</div><div class="s">'+t.sub+'</div></div></div>'+
+      '<div class="why">'+t.why+'</div><button class="btn" data-task="'+t.id+'">'+t.act+'</button></div>';
+  }).join("");
+}
+function finish(id){
+  var el=document.getElementById(id);
+  if(el){el.classList.add("gone");}
+  setTimeout(function(){done[id]=true;renderToday();},420);
+}
+
+/* sheets */
+function openSheet(html){
+  $("#sheet").innerHTML='<div class="grab"></div><div class="sh-top"><span></span><button class="x" data-close aria-label="Close">'+I.x+'</button></div>'+html;
+  $("#sheet").scrollTop=0;
+  $("#veil").classList.add("on");$("#sheet").classList.add("on");
+}
+function closeSheet(){$("#veil").classList.remove("on");$("#sheet").classList.remove("on");if(window._voiceTimer){clearTimeout(window._voiceTimer);}}
+
+function draftSheet(o){
+  openSheet('<div class="date">'+o.ch+'</div><h2>To '+o.to+'</h2>'+
+    '<div class="draft" id="draft">'+o.text+'</div>'+
+    '<div class="fine">Written by your assistant. Nothing goes out until you tap Send.</div>'+
+    '<div class="row2"><button class="btn" id="sendBtn">Send</button><button class="link" id="editBtn">Change the text</button></div>');
+  $("#editBtn").onclick=function(){var d=$("#draft");d.contentEditable="true";d.focus();this.style.display="none";};
+  $("#sendBtn").onclick=function(){
+    var b=this;b.classList.add("done");b.innerHTML='<span style="display:inline-flex;width:22px;height:22px;margin-right:8px">'+I.check+'</span>Sent';
+    $("#draft").contentEditable="false";
+    setTimeout(function(){closeSheet();if(o.task)finish(o.task);},800);
+  };
+}
+
+function claimSheet(task){
+  openSheet('<div class="date">Baltic Dawn · WhatsApp</div><h2>Damage at the berth</h2>'+
+    '<div class="bubs"><div class="bub">Touched the fender while docking. Small damage to the berth, nobody hurt.</div><div class="bub photo">📷 Photo, read by the assistant: cracked rubber fender at berth 7, paint scraped on the hull above the water.</div></div>'+
+    '<div class="card"><div class="t">The assistant will</div><div class="steps" id="csteps">'+
+      ['Tell the insurer','Book an inspector for today','Ask the captain for a short report'].map(function(s,i){return '<div class="step"><span class="sb" id="cs'+i+'">'+(i+1)+'</span><div class="grow" style="padding-top:2px">'+s+'</div></div>';}).join("")+
+    '</div></div><div style="height:22px"></div><button class="btn" id="claimGo">Start</button>');
+  $("#claimGo").onclick=function(){
+    var b=this;b.disabled=true;b.classList.add("soft");b.textContent="Working…";
+    [0,1,2].forEach(function(i){setTimeout(function(){var s=$("#cs"+i);s.classList.add("ok");s.innerHTML=I.check;},400+i*550);});
+    setTimeout(function(){b.classList.remove("soft");b.classList.add("done");b.innerHTML='<span style="display:inline-flex;width:22px;height:22px;margin-right:8px">'+I.check+'</span>Claim started';claimStarted=true;renderClaims();},2100);
+    setTimeout(function(){closeSheet();if(task)finish(task);},3000);
+  };
+}
+
+function termSheet(k){
+  var t=TERMS[k];
+  openSheet('<div class="date">In plain words</div><h2>'+t[0]+'</h2><p style="font-size:19px;line-height:1.5;margin:16px 0 26px;color:#3a3a3c">'+t[1]+'</p><button class="btn soft" data-close>Got it</button>');
+}
+
+function clientSheet(i){
+  var c=CLIENTS[i];
+  var h='<div style="text-align:center;margin-top:4px">'+av(c.n,i).replace('class="av"','class="av" style="width:76px;height:76px;font-size:26px;margin:0 auto;background:'+COLORS[i%COLORS.length]+'"')+
+    '<h2 style="margin-top:14px">'+c.n+'</h2><div class="s">'+c.p+' · '+c.city+' · '+c.ships+' ships</div></div>'+
+    '<div class="facts"><div class="fact"><b>'+c.ends+'</b><span>cover ends</span></div><div class="fact"><b>'+c.val+'</b><span class="w" data-term="value">fleet value</span></div><div class="fact"><b>'+c.last+'</b><span>last talk</span></div></div>';
+  if(c.offers){
+    h+='<div class="label" style="margin-top:32px">Offers for Aegean Star</div>'+
+      '<div class="list">'+
+        '<div class="offer"><div class="grow"><div class="t">London<span class="pick">Best</span></div><div class="s">Owner pays first $150k</div></div><div class="price">$77,700<div class="s">a year</div></div></div>'+
+        '<div class="offer"><div class="grow"><div class="t">Oslo</div><div class="s">Owner pays first $250k</div></div><div class="price">$72,150<div class="s">a year</div></div></div>'+
+        '<div class="offer"><div class="grow"><div class="t">Singapore</div><div class="s">Owner pays first $150k</div></div><div class="price">$83,250<div class="s">a year</div></div></div>'+
+      '</div>'+
+      '<div class="note"><b>Why London.</b> Oslo looks cheaper, but its <span class="w" data-term="deductible">deductible</span> is higher. With 3 claims in 5 years, Nikos would pay about $210k more there.</div>'+
+      '<button class="btn" id="cmpBtn">Send the comparison to Nikos</button>';
+  } else {
+    h+='<div style="height:26px"></div><button class="btn" id="cmpBtn">Ask the assistant for a note</button>';
+  }
+  openSheet(h);
+  $("#cmpBtn").onclick=function(){
+    if(c.offers){draftSheet({to:c.p,ch:"Email",text:"Nikos, here are three offers for Aegean Star side by side. London is my pick: a little dearer per year, but with your claims history it saves you about $210k. Happy to talk it through today."});}
+    else {draftSheet({to:c.p,ch:"WhatsApp",text:"Hi "+c.p.replace(/^Capt\. /,"").split(" ")[0]+", a quick hello from us. Anything changing in the fleet this season? Happy to check the market for you whenever it helps."});}
+  };
+}
+
+function chatSheet(i){
+  var c=CHATS[i]; c.u=false; renderChats();
+  openSheet('<div class="date">'+c.ch+'</div><h2>'+c.n+'</h2><div class="bubs" id="bubs">'+
+    c.msgs.map(function(m){return '<div class="bub'+(m[1]===2?' photo':'')+'">'+m[0]+'</div>';}).join("")+
+    '</div><div class="suggest"><div class="k">Suggested reply</div>'+c.sug+'</div><button class="btn" id="chatSend">Send</button>');
+  $("#chatSend").onclick=function(){
+    var d=document.createElement("div");d.className="bub me";d.textContent=c.sug;$("#bubs").appendChild(d);
+    document.querySelector(".suggest").style.display="none";
+    this.classList.add("done");this.innerHTML='<span style="display:inline-flex;width:22px;height:22px;margin-right:8px">'+I.check+'</span>Sent';this.disabled=true;
+  };
+}
+
+function howSheet(){
+  openSheet('<div class="date">How it works</div><h2>A little every day, to everyone.</h2>'+
+    '<p style="font-size:17px;color:#3a3a3c;margin:14px 0 0">Insurance is won by staying in touch. The assistant knows every client and writes each one a short, personal note. You approve the whole list with one tap.</p>'+
+    '<div class="fun">'+
+      [["Notes sent",10000,100],["Replies",1200,42],["Asked for offers",300,16],["New clients",100,6]].map(function(r){return '<div><div class="l"><span>'+r[0]+'</span><b>'+r[1].toLocaleString("en-US")+'</b></div><div class="m"><i style="width:'+r[2]+'%"></i></div></div>';}).join("")+
+    '</div><div class="fine" style="text-align:left;margin:0 0 24px">An illustration of a month, not a promise. Your own numbers appear after the first weeks.</div><button class="btn soft" data-close>Close</button>');
+}
+
+function voiceSheet(){
+  var lines=[["me","What needs me today?"],["ai","Three things. Aegean Star’s cover ends in 21 days. A new ship, Orion Bay, has no cover. And Captain Petrov reported small damage at the berth."],["me","Write to Nikos."],["ai","Done. The message is ready, shall I send it?"],["me","Yes."],["ai","Sent. Two things left."]];
+  openSheet('<div class="date">Voice</div><h2>Just ask.</h2><div class="s">In the car, between meetings. Works with Siri.</div><div class="bubs" id="vb"></div><div class="wave" id="wave">'+[0,1,2,3,4,5,6].map(function(i){return '<i style="animation-delay:'+(i*.12)+'s"></i>';}).join("")+'</div>');
+  var k=0;
+  (function next(){ if(k>=lines.length){$("#wave").style.opacity=.25;return;}
+    var l=lines[k++];var d=document.createElement("div");d.className="bub"+(l[0]==="me"?" me":"");d.textContent=l[1];$("#vb").appendChild(d);
+    window._voiceTimer=setTimeout(next,l[0]==="me"?900:1700);
+  })();
+}
+
+/* clients */
+function clientRow(c,i){
+  var tag = c.days===0 ? '<span class="tag o">No cover</span>' : c.days<=45 ? '<span class="tag o">'+c.days+' days</span>' : '<span class="tag g">'+c.ends+'</span>';
+  return '<button class="item" data-client="'+i+'">'+av(c.n,i)+'<div class="grow"><div class="t trunc">'+c.n+'</div><div class="s trunc">'+c.ships+' ships · '+c.city+'</div></div>'+tag+I.chev+'</button>';
+}
+function renderClients(){
+  var q=($("#q").value||"").toLowerCase();
+  var soon="",rest="";
+  CLIENTS.forEach(function(c,i){ if(q && (c.n+" "+c.p+" "+c.city).toLowerCase().indexOf(q)<0) return; if(c.days<=45) soon+=clientRow(c,i); else rest+=clientRow(c,i); });
+  $("#soon").innerHTML=soon||'<div class="item"><div class="s">Nobody</div></div>';
+  $("#rest").innerHTML=rest||'<div class="item"><div class="s">Nobody</div></div>';
+}
+
+/* chats */
+var chatFilter="all";
+function renderChats(){
+  $("#chats").innerHTML=CHATS.map(function(c,i){
+    if(chatFilter!=="all" && c.ch!==chatFilter) return "";
+    return '<button class="item" data-chat="'+i+'">'+av(c.n,i+2)+'<div class="grow"><div style="display:flex;gap:8px;align-items:baseline"><div class="t trunc grow">'+c.n+'</div><span class="time">'+c.t+'</span></div><div style="display:flex;gap:8px;align-items:center"><div class="s trunc grow">'+c.m+'</div>'+(c.u?'<span class="dot"></span>':'')+'</div><div class="ch">'+c.ch+'</div></div></button>';
+  }).join("");
+}
+
+/* claims */
+function renderClaims(){
+  var st=claimStarted?[1,1,1,0]:[1,1,0,0];
+  var labels=[["Insurer told","07:05"],["Inspector booked","Today, 14:00"],["Captain’s report","The assistant asked him"],["Settle the cost","After the inspection"]];
+  var doneN=st.filter(Boolean).length;
+  $("#claims").innerHTML='<div class="card"><div class="top" style="display:flex;gap:14px;align-items:flex-start"><div class="ico r">'+I.camera+'</div><div class="grow"><div class="t">Baltic Dawn</div><div class="s">Touched the berth while docking</div></div></div>'+
+    '<div class="bar"><i style="width:'+(doneN/4*100)+'%"></i></div><div class="s">Step '+Math.min(doneN+1,4)+' of 4</div>'+
+    '<div class="steps">'+labels.map(function(l,i){var cls=st[i]?"ok":(i===doneN?"now":"");return '<div class="step"><span class="sb '+cls+'">'+(st[i]?I.check:(i+1))+'</span><div class="grow"><div style="font-weight:500">'+l[0]+'</div><div class="s">'+(st[i]&&i===2?"Received":l[1])+'</div></div></div>';}).join("")+'</div>'+
+    '<div class="fine" style="text-align:left;margin:14px 0 0">The owner sees this too, so nobody has to ask “what’s happening?”</div></div>';
+}
+
+/* events */
+document.addEventListener("click",function(e){
+  var el=e.target.closest("[data-term],[data-close],[data-task],[data-open],[data-tab],[data-client],[data-chat],[data-f]");
+  if(!el) return;
+  if(el.dataset.term!==undefined){e.stopPropagation();termSheet(el.dataset.term);return;}
+  if(el.hasAttribute("data-close")){closeSheet();return;}
+  if(el.dataset.task){var t=TASKS.filter(function(x){return x.id===el.dataset.task;})[0]; if(t.kind==="claim") claimSheet(t.id); else draftSheet({to:t.to,ch:t.ch,text:t.text,task:t.id}); return;}
+  if(el.dataset.open==="voice"){voiceSheet();return;}
+  if(el.dataset.open==="how"){howSheet();return;}
+  if(el.dataset.client){clientSheet(+el.dataset.client);return;}
+  if(el.dataset.chat){chatSheet(+el.dataset.chat);return;}
+  if(el.dataset.f){chatFilter=el.dataset.f;document.querySelectorAll("#seg button").forEach(function(b){b.classList.toggle("on",b===el);});renderChats();return;}
+  if(el.dataset.tab){
+    document.querySelectorAll(".tabs button").forEach(function(b){b.classList.toggle("on",b===el);});
+    document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("on");});
+    $("#s-"+el.dataset.tab).classList.add("on");window.scrollTo(0,0);
+  }
+});
+$("#veil").addEventListener("click",closeSheet);
+$("#q").addEventListener("input",renderClients);
+$("#start").addEventListener("click",function(){$("#welcome").classList.add("off");});
+
+/* swipe down to close the sheet */
+(function(){var sh=$("#sheet"),y0=null,dy=0;
+  sh.addEventListener("touchstart",function(e){if(sh.scrollTop<=0){y0=e.touches[0].clientY;dy=0;}},{passive:true});
+  sh.addEventListener("touchmove",function(e){if(y0===null)return;dy=e.touches[0].clientY-y0;if(dy>0){sh.style.transition="none";sh.style.transform="translateY("+dy+"px)";}},{passive:true});
+  sh.addEventListener("touchend",function(){if(y0===null)return;sh.style.transition="";sh.style.transform="";if(dy>110)closeSheet();y0=null;});
+})();
+
+var p=new URLSearchParams(location.search);
+if(p.has("skip")) $("#welcome").classList.add("off");
+renderToday();renderClients();renderChats();renderClaims();
+if(p.get("tab")){var tb=document.querySelector('[data-tab="'+p.get("tab")+'"]');if(tb)tb.click();}
+</script>
+</body>
+</html>
